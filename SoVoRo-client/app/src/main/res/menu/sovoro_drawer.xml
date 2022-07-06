@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/sovoro_word_view"
+        android:title="단어 보기"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/sovoro_word_test"
+        android:title="단어 테스트"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/sovoro_calendar"
+        android:title="출석부"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/sovoro_word_comment"
+        android:title="단어 한마디"
+        app:showAsAction="always"
+        />
+</menu>

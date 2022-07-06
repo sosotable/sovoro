@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EditText_Style">
+        <item name="fontFamily">@font/jua</item>
+        <item name="android:background">@color/amber_100</item>
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="singleLine">true</item>
+    </style>
+    <style name="Button_Style">
+        <item name="fontFamily">@font/jua</item>
+    </style>
+    <style name="TextView_Style">
+        <item name="fontFamily">@font/jua</item>
+    </style>
+    <style name="Menuitem_Style">
+        <item name="fontFamily">@font/jua</item>
+        <item name="android:background">@color/amber_300</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+    <style name="Calendar_Style">
+        <item name="fontFamily">@font/jua</item>
+        <item name="android:background">@color/black_grey</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+</resources>

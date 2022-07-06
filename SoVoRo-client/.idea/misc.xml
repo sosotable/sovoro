@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_comment.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_main.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_signin.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_signup.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/sovoro_comment_view.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/sovoro_header.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/sovoro_toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/menu/sovoro_drawer.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/menu/sovoro_toolbar_menu.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/drawable/word_circle.xml" value="0.1545" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_attendance_calendar.xml" value="0.1" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_comment.xml" value="0.22" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_main.xml" value="0.22" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_signin.xml" value="0.33" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_signup.xml" value="0.25" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_splash.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_test.xml" value="0.18009118541033434" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_canlendar_content.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test1.xml" value="0.25" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test10.xml" value="0.18009118541033434" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test2.xml" value="0.24728260869565216" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test3.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test4.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test5.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test6.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test7.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test8.xml" value="0.24728260869565216" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_test9.xml" value="0.18009118541033434" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word1.xml" value="0.15" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word10.xml" value="0.3515625" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word2.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word3.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word4.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word5.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word6.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word7.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word8.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/fragment_sovoro_word9.xml" value="0.34366925064599485" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/sovoro_comment_view.xml" value="0.18840579710144928" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/sovoro_header.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/layout/sovoro_toolbar.xml" value="0.1828774062816616" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/menu/sovoro_drawer.xml" value="0.1875" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/menu/sovoro_toolbar_menu.xml" value="0.1875" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />
+        <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_sovoro_attendance_calendar.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_comment.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_main.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_main_loading.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_signin.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_signup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_sovoro_splash.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_sovoro_test.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_canlendar_content.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_test1.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_test10.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_word1.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_word10.xml" value="0.11614583333333334" />
+        <entry key="app/src/main/res/layout/fragment_sovoro_word2.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/menu/sovoro_drawer.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/menu/sovoro_toolbar_menu.xml" value="0.28229166666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

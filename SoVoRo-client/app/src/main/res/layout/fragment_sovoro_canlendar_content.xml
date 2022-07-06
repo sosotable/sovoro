@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SoVoRoCalendarContent">
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sovoro_calendar_date"
+            android:textColor="@color/black_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:text="2222년 22월 22일"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/jua"
+            android:textSize="50dp"
+            />
+        <TextView
+            android:textColor="@color/black_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="맞은 개수는: "
+            android:id="@+id/sovoro_calendar_result_1"
+            app:layout_constraintLeft_toLeftOf="@id/sovoro_calendar_date"
+            app:layout_constraintTop_toBottomOf="@+id/sovoro_calendar_date"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/jua"
+            android:textSize="40dp"
+            />
+        <TextView
+            android:id="@+id/sovoro_calendar_result_2"
+            android:textColor="@color/black_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/sovoro_calendar_result_1"
+            app:layout_constraintTop_toBottomOf="@id/sovoro_calendar_date"
+
+            android:text="7/10"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/jua"
+            android:textSize="40dp"
+            />
+        <TextView
+            android:textColor="@color/black_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 입니다"
+            app:layout_constraintLeft_toRightOf="@id/sovoro_calendar_result_2"
+            app:layout_constraintTop_toBottomOf="@id/sovoro_calendar_date"
+            android:id="@+id/sovoro_calendar_result_3"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/jua"
+            android:textSize="40dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</FrameLayout>

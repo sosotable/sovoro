@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b2c5a021-c2eb-4232-a983-938e176246fd" name="SoVoRo">
+        <fileTransfer accessType="SFTP" host="13.58.48.132" port="22" sshConfigId="8d42ef3a-811b-4937-9caa-0e325fc9138f" sshConfig="ubuntu@13.58.48.132:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

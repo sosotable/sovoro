@@ -1,0 +1,16 @@
+[ Android ]
+maven repository에서 탐색하고
+android gradle에 추가
+
+volley: 안드로이드 post get 라이브러리
+glide: 안드로이드 이미지 조작 라이브러리
+SlidingUpPanel: 슬라이드 회면 전환 라이브러리
+
+[ Nodejs ]
+npm을 사용
+
+express: nodejs 웹 서버 편리화 모듈
+web3: 이더리움 네트워크 접속 모듈
+cookie-parser: 쿠키 관리 모듈
+mysql: mysql접속을 위한 모듈
+

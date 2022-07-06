@@ -1,0 +1,53 @@
+use DWORD;
+
+-- #DWORD 라는 데이터베이스를 사용한다
+create table userinfo (
+--     #userinfo 라는 테이블을 만든다
+    userid varchar(250),
+    password varchar(250) not null,
+    password varchar(250) not null
+    nickname varchar(250) unique not null,
+    etherid varchar(250) not null,
+    userimage varchar(250),
+    userimage varchar(250)
+-- #userinfo 안에 userid, password, nickname, etherid, userimage라는 컬럼들을 만든다
+-- #not null=반드시 값을 입력받는다.
+-- #unique 중복되면 안된다
+    milege int default 0,
+-- #4바이트 짜리 정수값이며, 기본값은 0이다
+    attend int default 0,
+    primary key(userid)
+-- #userid는 not null+unique로 테이블을 대표하는 컬럼이다
+);
+
+create table wordinfo(
+-- #wordinfo라는 테이블을 만든다
+    wordid int auto_increment,
+-- #정수이고, 1씩 증가한다
+    engword varchar(250) primary key,
+-- #engword가 테이블을 대표하는 칼럼이다
+    korword varchar(250) not null,
+    kordesc varchar(250),
+    wordimage varchar(250)
+
+    primary key (wordbookname, wordbookownerid),
+    foreign key(wordbookownerid) references userinfo(userid)
+);
+-- #wordbookownerid라는 컬럼은 userinfo테이블의 userid를 참조한다~!
+
+create table wordbookcomments (
+    wordbookname varchar(250),
+
+create table attend (
+    attendeeid varchar(250),
+    attenddate date,
+-- #출석날짜를 입력받는다!
+    primary key(attendeeid,attenddate),
+    foreign key (attendeeid) references userinfo(userid)
+);
+
+    primary key (writerid,quotonum,likeduserid),
+    foreign key (writerid, quotonum) references todayquoto(writerid, quotonum),
+    foreign key (likeduserid) references userinfo(userid)
+-- #likeuserid는 userinfo테이블에서 userid칼럼을 참조하는 foreign key이다
+);

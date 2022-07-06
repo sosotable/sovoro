@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sovoro_main_drawer"
+    android:textSize="70dp"
+    android:background="@color/amber_200"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SoVoRoMain">
+        <include
+            layout="@layout/sovoro_toolbar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/sovoro_main_toolbar"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/sovoro_main_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="1000dp"
+            app:layout_constraintTop_toBottomOf="@id/sovoro_main_toolbar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            />
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/sovoro_main_frame"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/sovoro_main_toolbar"-->
+<!--            >-->
+<!--            -->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/sovoro_main_drawer_view"
+        android:layout_gravity="start"
+        app:menu="@menu/sovoro_drawer"
+        app:headerLayout="@layout/sovoro_header"
+        android:background="@color/amber_200"
+        app:itemTextAppearance="@style/Menuitem_Style"
+        />
+</androidx.drawerlayout.widget.DrawerLayout>

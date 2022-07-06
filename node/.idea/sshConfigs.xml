@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="13.58.48.132" id="8d42ef3a-811b-4937-9caa-0e325fc9138f" keyPath="C:\Users\valtin\Desktop\Project\aws-info-main\key.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
