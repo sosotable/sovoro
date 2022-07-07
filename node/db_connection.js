@@ -3,17 +3,17 @@ const config = require('./db_info').real;
 
 module.exports = ()=>{
     return {
-        init: ()=>{
+        init: async ()=>{
             return mysql.createConnection({
                 host: config.host,
                 port: config.port,
                 user: config.user,
                 password: config.password,
                 database: config.database
-            })
+            });
         },
 
-        open: (con)=>{
+        open: async (con)=>{
             con.connect((err)=>{
                 if (err) {
                     console.error('mysql connection error :' + err);
