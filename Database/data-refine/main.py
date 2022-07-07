@@ -1,6 +1,12 @@
-import mysql.connector
-from mysql.connector import Error
+import pymysql
 import pandas as pd
+import numpy as np
+
+dataFrame = pd.read_csv('dic-refine.csv')
+dataFrame.drop(['Unnamed: 0'], axis=1, inplace=True)
+
+dataList = dataFrame.values.tolist()
+print(dataList[0][1], dataList[0][2], dataList[0][3])
 
 
 def query_select(cursor):
@@ -8,41 +14,31 @@ def query_select(cursor):
     cursor.execute(sql)
 
 
-def query_insert(cursor, engword, korword):
+def query_insert(cursor, engword, wordid, korword):
     sql = (
-        "insert into wordinfo(engword,korword)"
-        "values(%s,%s)"
+        "insert into wordinfo(engword,wordid,korword)"
+        "values(%s,%s,%s)"
     )
-    data = (engword, korword)
+    data = (engword, wordid, korword)
+    print(data)
     cursor.execute(sql, data)
 
-try:
-    connection = mysql.connector.connect(host='13.58.48.132',
-                                         database='DWORD',
-                                         user='DWORD',
-                                         password='ssp')
-    if connection.is_connected():
-        db_Info = connection.get_server_info()
-        print("Connected to MySQL Server version ", db_Info)
-        cursor_select = connection.cursor(buffered=True)
-        cursor_insert = connection.cursor(buffered=True)
-        query_select(cursor_select)
-        # t=0
-        for row in cursor_select.fetchall():
-            # print(row[0])
-            # print(nnr[len('<FONT COLOR=#0000FF>'):nnr.find('</FONT>')])
-            # t += 1
-            # print(t)
-            nr = row[1].replace("\r\n", " ")
-            nnr = nr[nr.find('<FONT COLOR=#0000FF>'):]
-            query_insert(cursor_insert, row[0], nnr[len('<FONT COLOR=#0000FF>'):nnr.find('</FONT>')])
-        connection.commit()
 
-except Error as e:
-    print("Error while connecting to MySQL", e)
-finally:
-    if connection.is_connected():
-        cursor_insert.close()
-        cursor_select.close()
-        connection.close()
-        print("MySQL connection is closed")
+connection = pymysql.connect(
+    host='13.58.48.132',
+    user='DWORD',
+    password='ssp',
+    db='DWORD',
+    charset='utf8'
+)
+
+if connection is not None:
+    cursor = connection.cursor()
+    t = 0
+    for row in dataList:
+        engword = row[2]
+        korword = row[3]
+        t += 1
+        print(t)
+        query_insert(cursor, engword, t, korword)
+    connection.commit()
