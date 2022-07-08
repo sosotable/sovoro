@@ -7,83 +7,124 @@
     tools:context=".SoVoRoSignin"
     android:background="@color/amber_200"
     >
-    <ImageView
-        android:id="@+id/signinlogo"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/signin_logo"
+        android:layout_width="297dp"
+        android:layout_height="79dp"
+        android:adjustViewBounds="true"
         android:src="@drawable/text_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:adjustViewBounds="true"
-        app:layout_constraintVertical_bias="0.2"
-        />
-    <EditText
-        android:id="@+id/sovoroid"
+        app:layout_constraintVertical_bias="0.226" />
 
-        app:layout_constraintTop_toBottomOf="@+id/signinlogo"
+    <EditText
+        android:id="@+id/sovoro_id"
         style="@style/EditText_Style"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
         android:hint="id"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/signin_logo" />
 
     <EditText
-        android:id="@+id/sovoropassword"
-
+        android:id="@+id/sovoro_password"
         style="@style/EditText_Style"
-        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
         android:hint="password"
         android:inputType="textPassword"
         app:endIconMode="password_toggle"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sovoroid" />
+        app:layout_constraintTop_toBottomOf="@id/sovoro_id" />
 
     <Button
         android:id="@+id/sovoro_signin"
-
         style="@style/Button_Style"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:text="signin"
-        android:textSize="18sp"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/amber_100"
+        android:text="sign in"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sovoropassword"
-        android:background="@color/amber_100"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/sovoro_password" />
+
+    <ImageButton
+        android:id="@+id/kakao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="0dp"
+        android:src="@drawable/kakao_signin"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sovoro_signin" />
+
+    <ImageButton
+        android:id="@+id/naver"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:src="@drawable/naver_signin"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kakao" />
+
+    <ImageButton
+        android:id="@+id/google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/google_signin"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        android:layout_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/naver" />
 
     <TextView
-        android:id="@+id/sovorotext"
-
+        android:id="@+id/sovoro_text"
         style="@style/TextView_Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="SoVoRo가 처음이시라면"
-        android:textSize="20sp"
+        android:layout_marginTop="212dp"
+        android:text="SoVoRo가 처음이시라면?"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/sovoro_signin" />
 
     <Button
-        android:id="@+id/sovorosignup"
-
+        android:id="@+id/sovoro_signup"
         style="@style/Button_Style"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:text="signup"
-        android:textSize="18sp"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/amber_100"
+        android:text="sign up"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sovorotext"
-        android:background="@color/amber_100"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/sovoro_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
