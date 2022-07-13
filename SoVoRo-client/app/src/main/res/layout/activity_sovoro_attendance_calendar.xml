@@ -22,14 +22,19 @@
             />
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/sovoro_calendar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sovoro_calendar_toolbar"
 
-            app:mcv_selectionColor="@color/amber_500"
-            app:mcv_weekDayTextAppearance="@style/Calendar_Style"
+            android:theme="@style/CalenderViewCustom"
+
+            app:mcv_dateTextAppearance="@style/CalenderViewDateCustomText"
+            app:mcv_weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+
             app:mcv_headerTextAppearance="@style/Calendar_Style"
             />
         <FrameLayout

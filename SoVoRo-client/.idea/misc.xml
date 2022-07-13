@@ -49,7 +49,9 @@
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/menu/sovoro_toolbar_menu.xml" value="0.1875" />
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19" />
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo/SoVoRo-client/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/calendar_selector.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/transparent_calendar_element.xml" value="0.234" />
         <entry key="app/src/main/res/layout/activity_sovoro_attendance_calendar.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_sovoro_comment.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_sovoro_main.xml" value="0.19610507246376813" />
