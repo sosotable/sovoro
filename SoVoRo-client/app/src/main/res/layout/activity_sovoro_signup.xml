@@ -8,7 +8,7 @@
     android:background="@color/amber_200"
     >
     <ImageView
-        android:id="@+id/signuplogo"
+        android:id="@+id/signupLogo"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,11 +22,11 @@
         />
 
     <EditText
-        android:id="@+id/sovorosignupid"
+        android:id="@+id/sovoroSignupId"
 
         style="@style/EditText_Style"
         android:hint="id"
-        app:layout_constraintTop_toBottomOf="@+id/signuplogo"
+        app:layout_constraintTop_toBottomOf="@+id/signupLogo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"
@@ -36,7 +36,7 @@
 
         style="@style/EditText_Style"
         android:hint="password"
-        app:layout_constraintTop_toBottomOf="@+id/sovorosignupid"
+        app:layout_constraintTop_toBottomOf="@+id/sovoroSignupId"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="15dp"
@@ -44,7 +44,7 @@
         android:inputType="textWebPassword"
         />
     <EditText
-        android:id="@+id/sovorosignuppasswordcheck"
+        android:id="@+id/sovoroSignupPasswordCheck"
 
         style="@style/EditText_Style"
         android:hint="password check"
@@ -56,11 +56,11 @@
         android:inputType="textWebPassword"
         />
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sovorosignupnicknamelayout"
+        android:id="@+id/sovoroSignupNicknameLayout"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/sovorosignuppasswordcheck"
+        app:layout_constraintTop_toBottomOf="@id/sovoroSignupPasswordCheck"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="15dp"
@@ -76,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <Button
-            android:id="@+id/sovorosignupnicknameduplication_check"
+            android:id="@+id/sovoroSignupNicknameDuplicationCheck"
 
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -91,17 +91,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sovorosignupsmslayout"
+        android:id="@+id/sovoroSignupSmsLayout"
 
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/sovorosignupnicknamelayout"
+        app:layout_constraintTop_toBottomOf="@+id/sovoroSignupNicknameLayout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="15dp"
         >
         <EditText
-            android:id="@+id/sovorosignupsmssendinput"
+            android:id="@+id/sovoroSignupSmsSendInput"
 
             style="@style/EditText_Style"
             android:hint="전화번호 인증"
@@ -112,7 +112,7 @@
             android:inputType="phone"
             android:singleLine="true"/>
         <Button
-            android:id="@+id/sovorosignupsmssend"
+            android:id="@+id/sovoroSignupSmsSend"
 
             style="@style/Button_Style"
             android:layout_width="wrap_content"
@@ -127,17 +127,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sovorosignupsmsconfirmlayout"
+        android:id="@+id/sovoroSignupSmsConfirmLayout"
 
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sovorosignupsmslayout"
+        app:layout_constraintTop_toBottomOf="@id/sovoroSignupSmsLayout"
         android:layout_marginTop="15dp"
         >
         <EditText
-            android:id="@+id/sovorosmsconfirminput"
+            android:id="@+id/sovoroSmsConfirmInput"
 
             style="@style/EditText_Style"
             android:hint="인증번호 입력"
@@ -149,7 +149,7 @@
             android:inputType="phone"
             />
         <Button
-            android:id="@+id/sovorosignupsmsconfirm"
+            android:id="@+id/sovoroSignupSmsConfirm"
 
             style="@style/Button_Style"
             android:layout_width="wrap_content"
@@ -163,17 +163,17 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
-        android:id="@+id/sovorosignuperrtext"
+        android:id="@+id/sovoroSignupErrText"
 
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sovorosignupsmsconfirmlayout"
+        app:layout_constraintTop_toBottomOf="@id/sovoroSignupSmsConfirmLayout"
         android:textSize="10sp"
         android:layout_marginTop="15dp"/>
     <Button
-        android:id="@+id/sovorosignup"
+        android:id="@+id/sovoroSignup"
 
         android:layout_marginTop="20dp"
         style="@style/Button_Style"
@@ -181,7 +181,7 @@
         android:layout_height="wrap_content"
         android:text="회원가입"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/sovorosignuperrtext"
+        app:layout_constraintTop_toBottomOf="@+id/sovoroSignupErrText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/amber_300"

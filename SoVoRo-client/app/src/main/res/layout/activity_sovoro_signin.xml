@@ -9,7 +9,8 @@
     >
 
     <ImageView
-        android:id="@+id/signin_logo"
+        android:id="@+id/signinLogo"
+
         android:layout_width="297dp"
         android:layout_height="79dp"
         android:adjustViewBounds="true"
@@ -22,7 +23,7 @@
         app:layout_constraintVertical_bias="0.226" />
 
     <EditText
-        android:id="@+id/sovoro_id"
+        android:id="@+id/sovoroId"
         style="@style/EditText_Style"
         android:layout_width="300dp"
         android:layout_height="45dp"
@@ -31,10 +32,10 @@
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/signinLogo" />
 
     <EditText
-        android:id="@+id/sovoro_password"
+        android:id="@+id/sovoroPassword"
         style="@style/EditText_Style"
         android:layout_width="300dp"
         android:layout_height="45dp"
@@ -45,10 +46,11 @@
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sovoro_id" />
+        app:layout_constraintTop_toBottomOf="@id/sovoroId" />
 
     <Button
-        android:id="@+id/sovoro_signin"
+        android:id="@+id/sovoroSignin"
+
         style="@style/Button_Style"
         android:layout_width="100dp"
         android:layout_height="30dp"
@@ -59,10 +61,11 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sovoro_password" />
+        app:layout_constraintTop_toBottomOf="@+id/sovoroPassword" />
 
     <ImageButton
         android:id="@+id/kakao"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -71,7 +74,7 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sovoro_signin" />
+        app:layout_constraintTop_toBottomOf="@+id/sovoroSignin" />
 
     <com.navercorp.nid.oauth.view.NidOAuthLoginButton
         android:id="@+id/naver"
@@ -100,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/naver" />
 
     <TextView
-        android:id="@+id/sovoro_text"
+        android:id="@+id/sovoroText"
         style="@style/TextView_Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,10 +113,11 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sovoro_signin" />
+        app:layout_constraintTop_toBottomOf="@id/sovoroSignin" />
 
     <Button
-        android:id="@+id/sovoro_signup"
+        android:id="@+id/sovoroSignup"
+
         style="@style/Button_Style"
         android:layout_width="100dp"
         android:layout_height="30dp"
@@ -124,6 +128,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sovoro_text" />
+        app:layout_constraintTop_toBottomOf="@+id/sovoroText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

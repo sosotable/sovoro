@@ -71,8 +71,8 @@ public class SoVoRoSignin extends AppCompatActivity {
                                 break;
                             case "-1": // 인증 실패
                                 // id와 password를 빈칸으로 초기화
-                                activitySovoroSigninBinding.sovoroid.setText("");
-                                activitySovoroSigninBinding.sovoropassword.setText("");
+                                activitySovoroSigninBinding.sovoroId.setText("");
+                                activitySovoroSigninBinding.sovoroPassword.setText("");
                                 // id 혹은 password가 잘못되었다는 메세지 출력
                                 Toast.makeText(
                                         getApplicationContext(),"Wrong Id or Password", Toast.LENGTH_LONG).show();
@@ -94,8 +94,8 @@ public class SoVoRoSignin extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 // 사용자 id와 password를 map에 저장하여 송신한다
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("userid", activitySovoroSigninBinding.sovoroid.getText().toString());
-                params.put("password", activitySovoroSigninBinding.sovoropassword.getText().toString());
+                params.put("userid", activitySovoroSigninBinding.sovoroId.getText().toString());
+                params.put("password", activitySovoroSigninBinding.sovoroPassword.getText().toString());
                 return params;
             }
         };
@@ -107,8 +107,8 @@ public class SoVoRoSignin extends AppCompatActivity {
             public void onClick(View v) {
                 // 만약 id 혹은 password 입력창이 비어있는 경우
                 // id혹은 passwordc창이 비어있다는 에러 메세지 팝업
-                if(activitySovoroSigninBinding.sovoroid.getText().toString().isEmpty()
-                        ||activitySovoroSigninBinding.sovoropassword.getText().toString().isEmpty())
+                if(activitySovoroSigninBinding.sovoroId.getText().toString().isEmpty()
+                        ||activitySovoroSigninBinding.sovoroPassword.getText().toString().isEmpty())
                     Toast.makeText(getApplicationContext(),"ID or Password is empty",Toast.LENGTH_LONG).show();
                     // id와 password입력창에 값이 있다면 리퀘스트 송신
                 else
