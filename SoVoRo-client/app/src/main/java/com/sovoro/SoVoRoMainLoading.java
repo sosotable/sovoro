@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.sovoro.utils.AppHelper;
 
 import java.util.HashMap;
@@ -54,8 +57,23 @@ public class SoVoRoMainLoading extends AppCompatActivity {
 
         final String URL=AppHelper.getURL(LOADING_PATH);
 
-        /**
-         * 아래에 volley api를 이용한 어플리케이션 정보를 받아오는 코드 작성
-         * **/
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            try {
+                StringBuilder text = new StringBuilder("response:");
+                for (int i = 0; i < response.length(); i++) {
+                    text.append("\n").append(response.getJSONObject(i).getString("title"));
+                }
+                loadingImageView.setimage(text.toString());
+                /** 원래 textView.settext(text.toString()); 이었는데 위에 코드를 보니 loadingImageView로 바꾸고 싶었는데, setimage가 없고, 뭘로 해야 될 지 모르겠음,,,**/
+                
+            } catch (Exception error) {
+                textView.setText("error: " + error.getMessage());
+            }
+        }, error -> {
+            textView.setText("error: " + error.getMessage());
+        });
+
+        queue.add(jsonArrayRequest);
     }
 }
