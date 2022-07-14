@@ -66,7 +66,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                 }
                 loadingImageView.setimage(text.toString());
                 /** 원래 textView.settext(text.toString()); 이었는데 위에 코드를 보니 loadingImageView로 바꾸고 싶었는데, setimage가 없고, 뭘로 해야 될 지 모르겠음,,,**/
-                
+
             } catch (Exception error) {
                 textView.setText("error: " + error.getMessage());
             }
