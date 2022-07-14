@@ -16,6 +16,7 @@ const mysql = require('mysql2/promise');
 const mysql_dbc = require('./db_connection')();
 let connection=null;
 
+
 const getRandWordId=async (range)=>{
     return Math.floor(Math.random()*range)+1
 }
@@ -40,8 +41,6 @@ const getWordJson=async ()=>{
     return wordJson
 }
 
-
-
 const getDayCookie=async ()=>{
     let year = new Date().getFullYear(); // 년도
     let month = new Date().getMonth() + 1;  // 월
@@ -63,8 +62,6 @@ const cookieConfig={
 
 // 쿠키 모듈 미들웨어 등록
 app.use(cookieParser());
-// sql연결
-mysql_dbc.open(connection);
 
 // post를 받기 위한 미들웨어 등록
 app.use(express.json());
@@ -129,54 +126,46 @@ app.get('/loading',async (req,res)=>{
 
 })
 
-// signin 경로에서의 post요청이 들어올 경우 리스폰스
-// 해당 경로 path를 받고 request와 response를 처리할 콜백 함수를 등록한다(순서 바뀌면 에러난다 -(res, req)가 아니다!-
 app.post('/signin', async (req,res)=> {
-    // req.body는 post로 들어온 정보
-    // map형식으로 보내졌다
-    // JsonObject형식으로 사용 가능하다
+    const cookieConfig={
+        // 쿠키 만료일은 현재시각+하루
+        expires: new Date(Date.now() + 3600000),
+        // 웹 서버에서만 접근 가능
+        httpOnly: true,
+        // 쿠키 경로
+        path: '/signin'
+    }
 
-    // id는 해당 리퀘스트(req)의 몸체(body)의 아이디(userid) 값
+    let returnObj=new Object()
+    let userInfo=new Object()
     const userid=req.body.userid;
     const password=req.body.password;
-    // 데이터베이스 조회 퀴리
-    // 해당 아이디와 비밀번호와 맞는 row가 존재하는지 확인하는 쿼리
-    let query = `select count(*) as cnt from userinfo where userid='${userid}' and password='${password}'`
-    // 쿼리 실행
-    const v=await connection.query(query)
-    if(v[0][0].cnt==0)
-        res.send('-1')
-    else
-    {
-        // // DB에 해당 정보가 존재하는 경우
-        // // 쿠키를 등록한다
-        // res.cookie('userid', result[0].userid, {
-        //     // 쿠키 만료일은 현재시각+하루
-        //     expires: new Date(Date.now() + 86400000),
-        //     // 웹 서버에서만 접근 가능
-        //     httpOnly: true,
-        //     // 쿠키 경로
-        //     path: '/signin'
-        // });
-        // res.cookie('password', result[0].password, {
-        //     // 쿠키 만료일은 현재시각+하루
-        //     expires: new Date(Date.now() + 86400000),
-        //     // 웹 서버에서만 접근 가능
-        //     httpOnly: true,
-        //     // 쿠키 경로
-        //     path: '/signin'
-        // });
-        // res.cookie('nickname', result[0].nickname, {
-        //     // 쿠키 만료일은 현재시각+하루
-        //     expires: new Date(Date.now() + 86400000),
-        //     // 웹 서버에서만 접근 가능
-        //     httpOnly: true,
-        //     // 쿠키 경로
-        //     path: '/signin'
-        // });
-        // main화면으로 넘어가기 위해 0을 리스폰스
-        res.send('0')
+
+    try {
+        let query = `select nickname as res from userinfo where userid=? and password=?`
+        const v=await connection.query(query,[req.body.userid,req.body.password])
+        if(v[0].length==0)
+            returnObj.returnValue='fail'
+        else
+        {
+            returnObj.returnValue='success'
+            returnObj.returnValue=v[0][0].nickname
+            if(!req.cookies.userInfo) {
+                userInfo.userid=req.body.userid
+                userInfo.password=req.body.password
+                userInfo.nickname=v[0][0].nickname
+                res.cookie('userInfo', userInfo, cookieConfig);
+            }
+        }
     }
+    catch (e)
+    {
+        returnObj.success='fail'
+    }
+    finally {
+        res.send(returnObj)
+    }
+
 })
 
 // 회원가입 페이지에 대한 리퀘스트 처리
@@ -185,13 +174,18 @@ app.post('/signup',async (req,res)=>{
     const password=req.body.password;
     const nickname=req.body.nickname;
     let query = `insert into userinfo(userid,password,nickname) values('${userid}','${password}',${nickname});`
-    const v=await connection.query()
-    res.send(v[0])
+    const v=await connection.query(query)
+        .on('error',err => {
+            if(err)
+                returnObj.success='success'
+            else
+                returnObj.success='fail'
+        })
+    res.send(returnObj)
 })
 
 // 영단어 10개가 제공되는 메인화면
 app.get('/main',async (req,res)=>{
-
 })
 
 // 서버 실행
