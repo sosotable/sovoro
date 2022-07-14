@@ -51,5 +51,4 @@ dependencies {
     // https://mvnrepository.com/artifact/com.jakewharton.threetenabp/threetenabp
     implementation group: 'com.jakewharton.threetenabp', name: 'threetenabp', version: '1.4.0'
 
-
 }

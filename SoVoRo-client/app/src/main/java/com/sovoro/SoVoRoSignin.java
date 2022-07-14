@@ -46,7 +46,6 @@ public class SoVoRoSignin extends AppCompatActivity {
 
         // Post request 송신
         // volley 라이브러리의 StringRequest사용
-        // JsonObjectRequest, JsonArrayRequest도 존재하지만 해당 프로젝트에서는 StringRequest만 사용할 예정
         final StringRequest stringRequest = new StringRequest(
                 // 리퀘스트 형태
                 // POST 리퀘스트임
