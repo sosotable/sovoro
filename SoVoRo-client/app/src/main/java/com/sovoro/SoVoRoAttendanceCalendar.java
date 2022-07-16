@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +42,14 @@ import org.threeten.bp.LocalDate;
 
 import java.util.List;
 
-public class SoVoRoAttendanceCalendar extends AppCompatActivity {
+public class SoVoRoAttendanceCalendar
+        extends AppCompatActivity
+        implements
+        NavigationView.OnNavigationItemSelectedListener
+{
+    private final float pageMargin= getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+    private final float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+
     // 툴바 관련 객체
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -70,6 +79,63 @@ public class SoVoRoAttendanceCalendar extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**네비게이션뷰 선택 이벤트 처리**/
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawer.closeDrawers();
+        Intent intent;
+        int id = menuItem.getItemId();
+        String title = menuItem.getTitle().toString();
+        switch (menuItem.getItemId()) {
+            // 단어 학습 창-main-으로 이동
+            case R.id.sovoro_word_view:
+                intent = new Intent(getApplicationContext(), SoVoRoMain.class);
+                startActivity(intent);
+                break;
+            // 단어 테스트 창으로 이동
+            case R.id.sovoro_word_test:
+                intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                startActivity(intent);
+                break;
+            // 출석부 창으로 이동
+            case R.id.sovoro_calendar:
+                intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
+                startActivity(intent);
+                break;
+            // 단어 한마디 창으로 이동
+            case R.id.sovoro_word_comment:
+                intent = new Intent(getApplicationContext(), SoVoRoComment.class);
+                startActivity(intent);
+                break;
+        }
+        // 만약 err state라면 false return
+        return false;
+    }
+
+    /* 선택된 요일의 background를 설정하는 Decorator 클래스 */
+    private static class DayDecorator implements DayViewDecorator {
+
+        private final Drawable drawable;
+
+        public DayDecorator(Context context) {
+            drawable = ContextCompat.getDrawable(context, R.drawable.calendar_selector);
+        }
+
+        // true를 리턴 시 모든 요일에 내가 설정한 드로어블이 적용된다
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return true;
+        }
+
+        // 일자 선택 시 내가 정의한 드로어블이 적용되도록 한다
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.setSelectionDrawable(drawable);
+//            view.addSpan(new StyleSpan(Typeface.BOLD));   // 달력 안의 모든 숫자들이 볼드 처리됨
+        }
     }
 
     @Override
@@ -159,57 +225,6 @@ public class SoVoRoAttendanceCalendar extends AppCompatActivity {
 
         /**네비게이션뷰 관련 코드**/
         navigationView=findViewById(R.id.sovoro_calendar_drawer_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                Intent intent;
-                int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
-                switch (menuItem.getItemId()) {
-                    case R.id.sovoro_word_view:
-                        intent = new Intent(getApplicationContext(), SoVoRoMain.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_test:
-                        intent = new Intent(getApplicationContext(), SoVoRoTest.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_calendar:
-                        intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_comment:
-                        intent = new Intent(getApplicationContext(), SoVoRoComment.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
-    }
-
-    /* 선택된 요일의 background를 설정하는 Decorator 클래스 */
-    private static class DayDecorator implements DayViewDecorator {
-
-        private final Drawable drawable;
-
-        public DayDecorator(Context context) {
-            drawable = ContextCompat.getDrawable(context, R.drawable.calendar_selector);
-        }
-
-        // true를 리턴 시 모든 요일에 내가 설정한 드로어블이 적용된다
-        @Override
-        public boolean shouldDecorate(CalendarDay day) {
-            return true;
-        }
-
-        // 일자 선택 시 내가 정의한 드로어블이 적용되도록 한다
-        @Override
-        public void decorate(DayViewFacade view) {
-            view.setSelectionDrawable(drawable);
-//            view.addSpan(new StyleSpan(Typeface.BOLD));   // 달력 안의 모든 숫자들이 볼드 처리됨
-        }
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }

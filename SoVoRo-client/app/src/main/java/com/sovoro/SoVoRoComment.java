@@ -23,7 +23,11 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class SoVoRoComment extends AppCompatActivity {
+public class SoVoRoComment
+        extends AppCompatActivity
+        implements
+        NavigationView.OnNavigationItemSelectedListener
+{
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -52,6 +56,41 @@ public class SoVoRoComment extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**네비게이션뷰 선택 이벤트 처리**/
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawer.closeDrawers();
+        Intent intent;
+        int id = menuItem.getItemId();
+        String title = menuItem.getTitle().toString();
+        switch (menuItem.getItemId()) {
+            // 단어 학습 창-main-으로 이동
+            case R.id.sovoro_word_view:
+                intent = new Intent(getApplicationContext(), SoVoRoMain.class);
+                startActivity(intent);
+                break;
+            // 단어 테스트 창으로 이동
+            case R.id.sovoro_word_test:
+                intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                startActivity(intent);
+                break;
+            // 출석부 창으로 이동
+            case R.id.sovoro_calendar:
+                intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
+                startActivity(intent);
+                break;
+            // 단어 한마디 창으로 이동
+            case R.id.sovoro_word_comment:
+                intent = new Intent(getApplicationContext(), SoVoRoComment.class);
+                startActivity(intent);
+                break;
+        }
+        // 만약 err state라면 false return
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,35 +120,7 @@ public class SoVoRoComment extends AppCompatActivity {
 
         /**네비게이션뷰 관련 코드**/
         navigationView=findViewById(R.id.sovoro_comment_drawer_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                Intent intent;
-                int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
-                switch (menuItem.getItemId()) {
-                    case R.id.sovoro_word_view:
-                        intent = new Intent(getApplicationContext(), SoVoRoMain.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_test:
-                        intent = new Intent(getApplicationContext(), SoVoRoTest.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_calendar:
-                        intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_comment:
-                        intent = new Intent(getApplicationContext(), SoVoRoComment.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
         sovoroCommentSubmitButton.setOnClickListener(new View.OnClickListener(){
             @Override
