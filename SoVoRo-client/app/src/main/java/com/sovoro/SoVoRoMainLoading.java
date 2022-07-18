@@ -4,18 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.*;
+import com.android.volley.toolbox.*;
+
+import com.sovoro.databinding.ActivitySovoroMainLoadingBinding;
 import com.sovoro.utils.AppHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +27,19 @@ import java.util.Map;
 // 로딩 화면
 public class SoVoRoMainLoading extends AppCompatActivity {
 
-    private ImageView loadingImageView;
     private TextView loadingTextView;
+    private TextView tv;
+    private EditText etID;
+    private EditText etPW;
+    private Button btnSend;
+    private RequestQueue queue;
+    private ActivitySovoroMainLoadingBinding binding;
+    private JSONObject MainWord;
+    private JSONObject TestWord1;
+    private JSONObject TestWord2;
+    private JSONObject TestWord3;
+    private JSONObject userInfoJson;
+    private static final String TAG = "MAIN";
 
     // POST메소드 경로
     private final String LOADING_PATH="/loading";
@@ -42,20 +57,102 @@ public class SoVoRoMainLoading extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String url = "http://13.58.48.132:3000/loading";
+
         setContentView(R.layout.activity_sovoro_main_loading);
 
-        loadingImageView=findViewById(R.id.sovoro_loading_image);
+        //바인딩
+        binding = ActivitySovoroMainLoadingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        //queue 등록
+        queue = Volley.newRequestQueue(this);
+
+        //사용자 정보 저장할 JSON Object
+        userInfoJson = new JSONObject();
+
         loadingTextView=findViewById(R.id.sovoro_loading_text);
 
+        binding.sovoroLoadingText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    userInfoJson.put("id",binding.sovoroLoadingText.getText().toString());
+                    userInfoJson.put("password",binding.sovoroLoadingText.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                queue.add(getJsonObjectRequest());
+            }
+        });
+
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.loading_rotate);
-        loadingImageView.setAnimation(animation);
+        loadingTextView.setAnimation(animation);
 
         AppHelper.setRequestQueue(this);
 
+        //GET 함수
         final String URL=AppHelper.getURL(LOADING_PATH);
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    MainWord = response.getJSONObject("MainWord");
+                    TestWord1 = response.getJSONObject("TestWord1");
+                    TestWord2 = response.getJSONObject("TestWord2");
+                    TestWord3 = response.getJSONObject("TestWord3");
+                    loadingTextView.setText("MainWord" + MainWord + "\n" + "TestWord1" + TestWord1 + "\n" + "TestWord2" + TestWord2 + "\n" + "TestWord3" + TestWord3);
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Volley Error",error.toString());
+            }
+        });
 
-        /**
-         * 아래에 volley api를 이용한 어플리케이션 정보를 받아오는 코드 작성
-         * **/
+        jsonRequest.setTag(TAG);
+        queue.add(jsonRequest);
+
+        //POST 함수
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                tv.setText(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ID", etID.getText().toString());
+                params.put("PassWord", etPW.getText().toString());
+                return params;
+            }
+        };
+
+        stringRequest.setTag(TAG);
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                queue.add(stringRequest);
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (queue != null) {
+            queue.cancelAll(TAG);
+        }
     }
 }
