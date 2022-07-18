@@ -12,10 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
 
 import com.sovoro.databinding.ActivitySovoroMainLoadingBinding;
+=======
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+>>>>>>> upstream/main
 import com.sovoro.utils.AppHelper;
 
 import org.json.JSONException;
@@ -114,6 +125,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
 
@@ -154,5 +166,25 @@ public class SoVoRoMainLoading extends AppCompatActivity {
         if (queue != null) {
             queue.cancelAll(TAG);
         }
+=======
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            try {
+                StringBuilder text = new StringBuilder("response:");
+                for (int i = 0; i < response.length(); i++) {
+                    text.append("\n").append(response.getJSONObject(i).getString("title"));
+                }
+                loadingImageView.setimage(text.toString());
+                /** 원래 textView.settext(text.toString()); 이었는데 위에 코드를 보니 loadingImageView로 바꾸고 싶었는데, setimage가 없고, 뭘로 해야 될 지 모르겠음,,,**/
+
+            } catch (Exception error) {
+                textView.setText("error: " + error.getMessage());
+            }
+        }, error -> {
+            textView.setText("error: " + error.getMessage());
+        });
+
+        queue.add(jsonArrayRequest);
+>>>>>>> upstream/main
     }
 }

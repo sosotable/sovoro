@@ -4,7 +4,7 @@ const config = require('./db_info').real;
 module.exports = ()=>{
     return {
         init: async ()=>{
-            return mysql.createConnection({
+            return mysql.createPool({
                 host: config.host,
                 port: config.port,
                 user: config.user,

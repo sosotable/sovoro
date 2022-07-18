@@ -24,7 +24,14 @@ import com.sovoro.wordview.SoVoRoWordAdapter;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class SoVoRoTest extends AppCompatActivity {
+public class SoVoRoTest
+        extends AppCompatActivity
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ViewPager2.PageTransformer
+{
+    private float pageMargin;
+    private float pageOffset;
     /**툴바 관련 객체**/
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -56,6 +63,54 @@ public class SoVoRoTest extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**네비게이션뷰 선택 이벤트 처리**/
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawer.closeDrawers();
+        Intent intent;
+        int id = menuItem.getItemId();
+        String title = menuItem.getTitle().toString();
+        switch (menuItem.getItemId()) {
+            // 단어 학습 창-main-으로 이동
+            case R.id.sovoro_word_view:
+                intent = new Intent(getApplicationContext(), SoVoRoMain.class);
+                startActivity(intent);
+                break;
+            // 단어 테스트 창으로 이동
+            case R.id.sovoro_word_test:
+                intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                startActivity(intent);
+                break;
+            // 출석부 창으로 이동
+            case R.id.sovoro_calendar:
+                intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
+                startActivity(intent);
+                break;
+            // 단어 한마디 창으로 이동
+            case R.id.sovoro_word_comment:
+                intent = new Intent(getApplicationContext(), SoVoRoComment.class);
+                startActivity(intent);
+                break;
+        }
+        // 만약 err state라면 false return
+        return false;
+    }
+
+    @Override
+    public void transformPage(@NonNull View page, float position) {
+        float myOffset = position * -(2 * pageOffset + pageMargin);
+        if (mPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+            if (ViewCompat.getLayoutDirection(mPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                page.setTranslationX(-myOffset);
+            } else {
+                page.setTranslationX(myOffset);
+            }
+        } else {
+            page.setTranslationY(myOffset);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,37 +129,13 @@ public class SoVoRoTest extends AppCompatActivity {
 
         /**네비게이션뷰 관련 코드**/
         navigationView=findViewById(R.id.sovoro_test_drawer_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                Intent intent;
-                int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
-                switch (menuItem.getItemId()) {
-                    case R.id.sovoro_word_view:
-                        intent = new Intent(getApplicationContext(), SoVoRoMain.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_test:
-                        intent = new Intent(getApplicationContext(), SoVoRoTest.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_calendar:
-                        intent = new Intent(getApplicationContext(), SoVoRoAttendanceCalendar.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.sovoro_word_comment:
-                        intent = new Intent(getApplicationContext(), SoVoRoComment.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
         /**뷰페이저 관련 코드**/
+
+        pageMargin = getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+        pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+
         //ViewPager2
         mPager = findViewById(R.id.sovoro_test_viewpager);
         //Adapter
@@ -118,41 +149,7 @@ public class SoVoRoTest extends AppCompatActivity {
         mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         mPager.setCurrentItem(1000);
         mPager.setOffscreenPageLimit(10);
-
-        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                if (positionOffsetPixels == 0) {
-                    mPager.setCurrentItem(position);
-                }
-            }
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                //mIndicator.animatePageSelected(position%num_page);
-            }
-
-        });
-
-
-        final float pageMargin= getResources().getDimensionPixelOffset(R.dimen.pageMargin);
-        final float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
-
-        mPager.setPageTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float myOffset = position * -(2 * pageOffset + pageMargin);
-                if (mPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    if (ViewCompat.getLayoutDirection(mPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                        page.setTranslationX(-myOffset);
-                    } else {
-                        page.setTranslationX(myOffset);
-                    }
-                } else {
-                    page.setTranslationY(myOffset);
-                }
-            }
-        });
+        mPager.registerOnPageChangeCallback(new SoVoRoViewPagerOnPageChangeCallback(mPager));
+        mPager.setPageTransformer(this);
     }
 }
