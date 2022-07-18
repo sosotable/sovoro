@@ -48,6 +48,9 @@ public class SoVoRoSignup extends AppCompatActivity {
                 String password = activitySovoroSignupBinding.sovorosignuppassword.getText().toString();
                 String nickname = activitySovoroSignupBinding.sovorosignupnickname.getText().toString();
 
+                activitySovoroSignupBinding=ActivitySovoroSignupBinding.inflate(getLayoutInflater());
+                setContentView(activitySovoroSignupBinding.getRoot());
+
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
 
