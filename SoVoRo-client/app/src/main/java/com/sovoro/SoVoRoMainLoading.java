@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sovoro.utils.AppHelper;
+import com.sovoro.utils.RequestOption;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,11 +36,6 @@ import java.util.Map;
 // 로딩 화면
 public class SoVoRoMainLoading extends AppCompatActivity {
 
-    private TextView loadingTextView;
-    private TextView tv;
-    private EditText etID;
-    private EditText etPW;
-    private Button btnSend;
     private RequestQueue queue;
     private ActivitySovoroMainLoadingBinding binding;
     private JSONObject MainWord;
@@ -65,9 +61,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String url = "http://13.58.48.132:3000/loading";
-
         setContentView(R.layout.activity_sovoro_main_loading);
 
         //바인딩
@@ -80,29 +73,18 @@ public class SoVoRoMainLoading extends AppCompatActivity {
         //사용자 정보 저장할 JSON Object
         userInfoJson = new JSONObject();
 
-        loadingTextView=findViewById(R.id.sovoro_loading_text);
-
-        binding.sovoroLoadingText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    userInfoJson.put("id",binding.sovoroLoadingText.getText().toString());
-                    userInfoJson.put("password",binding.sovoroLoadingText.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                queue.add(getJsonObjectRequest());
-            }
-        });
-
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.loading_rotate);
-        loadingTextView.setAnimation(animation);
+        binding.sovoroLoadingImage.setAnimation(animation);
 
         AppHelper.setRequestQueue(this);
 
         //GET 함수
         final String URL=AppHelper.getURL(LOADING_PATH);
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                AppHelper.getURL(LOADING_PATH),
+                null,
+                new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -110,8 +92,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                     TestWord1 = response.getJSONObject("TestWord1");
                     TestWord2 = response.getJSONObject("TestWord2");
                     TestWord3 = response.getJSONObject("TestWord3");
-                    loadingTextView.setText("MainWord" + MainWord + "\n" + "TestWord1" + TestWord1 + "\n" + "TestWord2" + TestWord2 + "\n" + "TestWord3" + TestWord3);
-                } catch (JSONException e){
+                    } catch (JSONException e){
                     e.printStackTrace();
                 }
             }
@@ -121,41 +102,8 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                 Log.d("Volley Error",error.toString());
             }
         });
+        AppHelper.requestQueueAdd(jsonRequest, RequestOption.JSONOBJECT);
 
-        jsonRequest.setTag(TAG);
-        queue.add(jsonRequest);
-
-
-
-        //POST 함수
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                tv.setText(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("ID", etID.getText().toString());
-                params.put("PassWord", etPW.getText().toString());
-                return params;
-            }
-        };
-
-        stringRequest.setTag(TAG);
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                queue.add(stringRequest);
-            }
-        });
     }
 
     @Override
