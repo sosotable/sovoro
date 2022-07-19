@@ -10,22 +10,25 @@
     <ImageView
         android:id="@+id/signupLogo"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="297dp"
+        android:layout_height="79dp"
         android:src="@drawable/text_logo"
         android:adjustViewBounds="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintVertical_bias="0.2"
         />
 
     <EditText
         android:id="@+id/sovoroSignupId"
 
         style="@style/EditText_Style"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:hint="id"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/signupLogo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -35,7 +38,10 @@
         android:id="@+id/sovorosignuppassword"
 
         style="@style/EditText_Style"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:hint="password"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/sovoroSignupId"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -47,7 +53,10 @@
         android:id="@+id/sovoroSignupPasswordCheck"
 
         style="@style/EditText_Style"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:hint="password check"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/sovorosignuppassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -69,7 +78,10 @@
             android:id="@+id/sovorosignupnickname"
 
             style="@style/EditText_Style"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
             android:hint="nickname"
+            android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +91,7 @@
             android:id="@+id/sovoroSignupNicknameDuplicationCheck"
 
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:fontFamily="@font/jua"
@@ -94,7 +106,7 @@
         android:id="@+id/sovoroSignupSmsLayout"
 
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/sovoroSignupNicknameLayout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -104,7 +116,10 @@
             android:id="@+id/sovoroSignupSmsSendInput"
 
             style="@style/EditText_Style"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
             android:hint="전화번호 인증"
+            android:textSize="18sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -116,7 +131,7 @@
 
             style="@style/Button_Style"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@color/amber_300"
             android:text="인증번호 발송"
             android:textSize="10sp"
@@ -130,7 +145,7 @@
         android:id="@+id/sovoroSignupSmsConfirmLayout"
 
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sovoroSignupSmsLayout"
@@ -140,7 +155,10 @@
             android:id="@+id/sovoroSmsConfirmInput"
 
             style="@style/EditText_Style"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
             android:hint="인증번호 입력"
+            android:textSize="18sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -153,7 +171,7 @@
 
             style="@style/Button_Style"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:text="인증번호 확인"
             android:textSize="10sp"
             app:layout_constraintRight_toRightOf="parent"
@@ -177,10 +195,10 @@
 
         android:layout_marginTop="20dp"
         style="@style/Button_Style"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="35dp"
         android:text="회원가입"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@+id/sovoroSignupErrText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
