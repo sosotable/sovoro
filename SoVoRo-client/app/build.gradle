@@ -51,4 +51,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.jakewharton.threetenabp/threetenabp
     implementation group: 'com.jakewharton.threetenabp', name: 'threetenabp', version: '1.4.0'
 
+    // https://mvnrepository.com/artifact/io.socket/socket.io-client
+    implementation 'io.socket:socket.io-client:2.1.0'
+
 }
