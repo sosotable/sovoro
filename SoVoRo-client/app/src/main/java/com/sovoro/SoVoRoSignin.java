@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.sovoro.databinding.ActivitySovoroSigninBinding;
+import com.sovoro.model.UserInfo;
 import com.sovoro.utils.AppHelper;
 import com.sovoro.utils.RequestOption;
 
@@ -62,6 +63,8 @@ public class SoVoRoSignin extends AppCompatActivity {
                         ||activitySovoroSigninBinding.sovoroPassword.getText().toString().isEmpty())
                     Toast.makeText(getApplicationContext(),"ID or Password is empty",Toast.LENGTH_LONG).show();
                     // id와 password입력창에 값이 있다면 리퀘스트 송신
+                // else
+                //    AppHelper.requestQueueAdd(stringRequest,"STRING");
                 else {
                     try {
                         userId=activitySovoroSigninBinding.sovoroId.getText().toString();
@@ -91,6 +94,14 @@ public class SoVoRoSignin extends AppCompatActivity {
                         intent.putExtra("password",password);
                         intent.putExtra("userNickname",response.getString("userNickname"));
                         startActivity(intent);
+
+                        /**변경 내용**/
+                        Intent getintent = getIntent();
+                        String guserid = getintent.getStringExtra("userId");
+                        String gpassword = getintent.getStringExtra("password");
+                        String gnickname = getintent.getStringExtra("userNickname");
+
+                        new UserInfo(guserid, gpassword, gnickname);
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Wrong Id or password",Toast.LENGTH_LONG)

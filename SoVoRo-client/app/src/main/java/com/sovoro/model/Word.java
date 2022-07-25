@@ -5,7 +5,7 @@ public class Word {
     String koreanWord;
     String koreanWordDescription;
     String wordImageURL;
-    public Word() {}
+    public Word(Object o, Object o1) {}
     public Word(String englishWord, String koreanWord) {
         this.englishWord=englishWord;
         this.koreanWord=koreanWord;
