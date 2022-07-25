@@ -1,245 +1,288 @@
 package com.sovoro;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.sovoro.databinding.ActivitySovoroCommentBinding;
-import com.sovoro.databinding.ActivitySovoroSigninBinding;
+
+import com.sovoro.LoginFlag;
+import com.sovoro.R;
+import com.sovoro.SoVoRoMain;
+import com.sovoro.TimeLeft;
 import com.sovoro.databinding.ActivitySovoroSignupBinding;
-import com.sovoro.utils.AppHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-// 회원가입 액티비티
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
+
 public class SoVoRoSignup extends AppCompatActivity {
     private ActivitySovoroSignupBinding activitySovoroSignupBinding;
     private RequestQueue queue;
+    private JSONObject signupInfo;
+    private JSONObject mailAuthInfo=new JSONObject();
     private final String SIGNUP_PATH="/signup";
+    private String URL;
+    private LoginFlag loginFlag=new LoginFlag();
+    private Socket socket;
+    {
+        try {
+            socket = IO.socket("http://13.58.48.132:3000");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    private boolean mailSendFlag=false;
+    private TimeLeft timeLeft;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sovoro_signup);
 
-        activitySovoroSignupBinding.sovoroSignup.setOnClickListener(new View.OnClickListener() {
+        socket.on("nickname check", nicknameCheckListener);
+        socket.on("id check", idCheckListener);
+        socket.on("mail check", mailCheckListener);
+        socket.on("timer start", timerStartListener);
+        socket.on("timer stop", timerStopListener);
+        socket.connect();
+
+        /**바인딩 위치 변경**/
+        /**onclick 내부에서 바인딩을 설정할 경우 외부에서는 사용할 수 없게 돼요**/
+        activitySovoroSignupBinding=ActivitySovoroSignupBinding.inflate(getLayoutInflater());
+        setContentView(activitySovoroSignupBinding.getRoot());
+
+//        String URL = AppHelper.getURL(SIGNUP_PATH);
+        signupInfo=new JSONObject();
+
+        activitySovoroSignupBinding.sovoroSignupIdConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String URL = AppHelper.getURL(SIGNUP_PATH);
-                String userid = activitySovoroSignupBinding.sovoroSignupId.getText().toString();
-                String password = activitySovoroSignupBinding.sovorosignuppassword.getText().toString();
-                String nickname = activitySovoroSignupBinding.sovorosignupnickname.getText().toString();
-
-                activitySovoroSignupBinding=ActivitySovoroSignupBinding.inflate(getLayoutInflater());
-                setContentView(activitySovoroSignupBinding.getRoot());
-
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Signup",response);
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success) {
-                                Toast.makeText(getApplicationContext(), "회원가입 완료", Toast.LENGTH_LONG).show();
-
-                                Intent intent = new Intent(SoVoRoSignup.this, SoVoRoSignin.class);
-                                startActivity(intent);
-                                //finish();
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                socket.emit("id check", activitySovoroSignupBinding.sovoroSignupId.getText().toString());
+            }
+        });
+        activitySovoroSignupBinding.sovoroSignupNicknameDuplicationCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("nickname check", activitySovoroSignupBinding.sovoroSignupId.getText().toString());
+            }
+        });
+        activitySovoroSignupBinding.sovoroSignupMailSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mailSendFlag) {
+                    socket.emit("mail check", activitySovoroSignupBinding.sovoroSignupMailSendInput.getText().toString());
+                    socket.emit("timer start");
+                    activitySovoroSignupBinding.sovoroSignupMailSendButton.setText("인증번호 발송 완료");
+                    mailSendFlag=true;
+                    timeLeft=new TimeLeft();
+                }
+            }
+        });
+        activitySovoroSignupBinding.sovoroSignupMailConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (mailAuthInfo.getString("mailAuth").equals(activitySovoroSignupBinding.sovoroMailConfirmInput.getText().toString())) {
+                        activitySovoroSignupBinding.sovoroSignupMailCheck.setTextColor(Color.parseColor("#FF000000"));
+                        activitySovoroSignupBinding.sovoroSignupMailCheck.setText("인증 완료되었습니다");
+                    } else {
+                        activitySovoroSignupBinding.sovoroSignupMailCheck.setTextColor(Color.parseColor("#E57373"));
+                        activitySovoroSignupBinding.sovoroSignupMailCheck.setText("인증 번호가 다릅니다");
                     }
-
-                };
-
-                Response.ErrorListener errorListener = new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),"회원가입 처리 에러",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                };
-
-
-
-                RegisterRequest registerRequest = new RegisterRequest(URL, userid, password, nickname, responseListener, errorListener);
-                queue = Volley.newRequestQueue(SoVoRoSignup.this);
-                queue.add(registerRequest);
-                //AppHelper.getURL(SIGNUP_PATH),
-                // activitySovoroSignupBinding.sovoroSignupId.getText().toString(),
-                // activitySovoroSignupBinding.sovorosignuppassword.getText().toString(),
-                // activitySovoroSignupBinding.sovorosignupnickname.getText().toString(),
-                //responseListener
-                //);
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-
-
-}
-
-    public class RegisterRequest extends StringRequest {
-        private Map<String, String> map;
-
-
-
-
-        //private String userid;
-        //private String password;
-        //private String nickname;
-
-        /*public RegisterRequest(String userid, String password, String nickname, String URL, Response.Listener<String> listener) {
-            super(Method.POST, URL, listener, null);
-            map = new HashMap<>();
-        }*/
-
-        public RegisterRequest(String URL, String userid, String password, String nickname, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-            super(Method.POST, URL, listener, errorListener);
-
-            map = new HashMap<>();
-            map.put("userid", userid);
-            map.put("password", password);
-            map.put("nickname", nickname);
-        }
-
-        /*public void insertIntoMap(String key, String value) {
-            map.put(key,value);
-        }*/
-        @Nullable
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
-            return map;
-        }
-
-
-
-    }
-
-
-}
-
-    /*public class RegisterRequest extends StringRequest {
-        private Map<String, String> map;
-
-        private String userid;
-        private String password;
-        private String nickname;
-
-        public RegisterRequest(String userid, String password, String URL, Response.Listener<String> listener) {
-            super(Method.POST, URL, listener, null);
-            map = new HashMap<>();
-        }
-
-        public RegisterRequest(String URL,String userid, String password, String nickname, Response.Listener<String> listener) {
-            super(Method.POST, URL, listener, null);
-
-            map = new HashMap<>();
-            map.put("userid", userid);
-            map.put("password", password);
-            map.put("nickname", nickname);
-        }
-        public void insertIntoMap(String key, String value) {
-            map.put(key,value);
-        }
-        @Nullable
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
-            return map;
-        }
-    }*/
-
-
-
-
-
-/* private JsonObjectRequest getJsonObjectRequest() {
-            return new JsonObjectRequest(
-                    Request.Method.POST,
-                    URL,
-                    new Response.Listener<JSONObject>() {
-
+        activitySovoroSignupBinding.sovoroSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!loginFlag.isIdCheck()) {
+                    activitySovoroSignupBinding.signupCheck.setText("아이디 중복확인이 필요합니다");
+                    return;
+                }
+                else if(!loginFlag.isPasswordCheck()) {
+                    activitySovoroSignupBinding.signupCheck.setText("동일한 비밀번호를 입력해 주세요");
+                }
+                else if(!loginFlag.isNicknameCheck())
+                    activitySovoroSignupBinding.signupCheck.setText("닉네임 중복확인이 필요합니다");
+                else if(!loginFlag.isSmsCheck())
+                    activitySovoroSignupBinding.signupCheck.setText("SMS 인증이 필요합니다");
+                else {
+                    try {
+                        signupInfo.put("userId", activitySovoroSignupBinding.sovoroSignupId.getText().toString());
+                        signupInfo.put("password", activitySovoroSignupBinding.sovorosignuppassword.getText().toString());
+                        signupInfo.put("userNickname", activitySovoroSignupBinding.sovorosignupnickname.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("volley response", response.toString());
                             try {
-                                if (response.getString("result").equals("0"))
-                                {
+                                if (response.getBoolean("success")) {
                                     Toast.makeText(getApplicationContext(), "회원가입 완료", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), SoVoRoSignin.class);
+                                    Intent intent = new Intent(getApplicationContext(), SoVoRoMain.class);
                                     startActivity(intent);
-                                }
-                                else
-                                {
+                                } else {
                                     Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
+                                    return;
                                 }
-                            } catch(JSONException e) {e.printStackTrace();}
-                        }
-
-
-            );
-        }
-        }*/
-
-
-        /*final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                URL,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("volley response", response.toString());
-                        try {
-                            if (response.getString("result").equals("0")) {
-                                Intent intent = new Intent(getApplicationContext(), SoVoRoMain.class);
-                                startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // 에러 발생시 로그창에 에러를 띄운다
-                        System.err.println(error.toString());
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                // 사용자 id와 password를 map에 저장하여 송신한다
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("userid", activitySovoroSignupBinding.sovoroSignupId.getText().toString());
-                params.put("password", activitySovoroSignupBinding.sovorosignuppassword.getText().toString());
-                params.put("password", activitySovoroSignupBinding.sovorosignupnickname.getText().toString());
-                return params;
+                    };
+                    Response.ErrorListener errorListener = new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("SignUperr", error.toString());
+                            Toast.makeText(getApplicationContext(), "회원가입 처리 에러", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    };
+                    RegisterRequest registerRequest = new RegisterRequest(URL, signupInfo, responseListener, errorListener);
+                    queue = Volley.newRequestQueue(SoVoRoSignup.this);
+                    queue.add(registerRequest);
+                }
             }
-    };*/
+        });
+    }
+
+    public class RegisterRequest extends JsonObjectRequest {
+
+        public RegisterRequest(String URL, JSONObject jsonObject, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+            super(
+                    Method.POST,
+                    URL,
+                    jsonObject,
+                    listener,
+                    errorListener);
+        }
+    }
+    private Emitter.Listener idCheckListener=new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView=findViewById(R.id.idCheckResult);
+                    JSONObject jsonObject=(JSONObject)args[0];
+                    try {
+                        if(jsonObject.getBoolean("returnValue")) {
+                            textView.setTextColor(Color.parseColor("#FF000000"));
+                            textView.setText("아이디 사용 가능");
+                            loginFlag.setIdCheck(true);
+                        }
+                        else {
+                            textView.setTextColor(Color.parseColor("#E57373"));
+                            textView.setText("아이디 중복");
+                            loginFlag.setIdCheck(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+    };
+    private Emitter.Listener nicknameCheckListener=new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView textView=findViewById(R.id.nicknameCheckResult);
+                    JSONObject jsonObject=(JSONObject)args[0];
+                    try {
+                        if(jsonObject.getBoolean("returnValue")) {
+                            textView.setTextColor(Color.parseColor("#FF000000"));
+                            textView.setText("닉네임 사용 가능");
+                            loginFlag.setIdCheck(true);
+                        }
+                        else {
+                            textView.setTextColor(Color.parseColor("#E57373"));
+                            textView.setText("아이디 중복");
+                            loginFlag.setIdCheck(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+    };
+    private Emitter.Listener mailCheckListener=new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mailAuthInfo=(JSONObject) args[0];
+                }
+            });
+        }
+    };
+    private Emitter.Listener timerStartListener=new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            AppCompatTextView timeLeftTextView=findViewById(R.id.sovoroSignupTimeLeft);
+            timeLeftTextView.setTextColor(Color.parseColor("#FF000000"));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    timeLeft.setTimeFlow((Integer)args[0]);
+                    timeLeft.calcCurrentTimeLeft();
+                    timeLeft.calcMinute();
+                    timeLeft.calcSecond();
+                    timeLeftTextView.setText(timeLeft.getTimeLeft());
+                }
+            });
+        }
+    };
+    private Emitter.Listener timerStopListener=new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            AppCompatTextView timeLeft=findViewById(R.id.sovoroSignupTimeLeft);
+            AppCompatButton mailSendButton=findViewById(R.id.sovoroSignupMailSendButton);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    timeLeft.setTextColor(Color.parseColor("#E57373"));
+                    timeLeft.setText("인증 시간이 만료되었습니다");
+                    mailSendButton.setText("인증번호 발송");
+                    mailSendFlag=false;
+                }
+            });
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        socket.disconnect();
+    }
+}

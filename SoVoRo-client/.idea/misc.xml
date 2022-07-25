@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/82104/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_main_loading.xml" value="0.33177083333333335" />
         <entry key="..\:/Users/82104/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_signin.xml" value="0.33177083333333335" />
+<<<<<<< HEAD
+        <entry key="..\:/Users/user/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_main_loading.xml" value="0.5536458333333333" />
+=======
         <entry key="..\:/Users/Admin/Desktop/sovoropro/pjt/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_signin.xml" value="0.1" />
         <entry key="..\:/Users/Admin/Desktop/sovoropro/pjt/SoVoRo/SoVoRo-client/app/src/main/res/layout/activity_sovoro_signup.xml" value="0.16" />
+>>>>>>> upstream/main
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_comment.xml" value="0.1" />
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_main.xml" value="0.1" />
         <entry key="..\:/Users/valtin/Desktop/Project/SoVoRo-Client/app/src/main/res/layout/activity_sovoro_signin.xml" value="0.17603850050658562" />

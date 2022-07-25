@@ -4,20 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.*;
+import com.android.volley.toolbox.*;
+
+import com.sovoro.databinding.ActivitySovoroMainLoadingBinding;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-<<<<<<< Updated upstream
+
 import com.sovoro.utils.AppHelper;
-=======
+
 import com.android.volley.toolbox.Volley;
 import com.sovoro.model.Word;
 import com.sovoro.utils.AppHelper;
@@ -26,7 +34,14 @@ import com.sovoro.utils.RequestOption;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
->>>>>>> Stashed changes
+
+import com.android.volley.toolbox.Volley;
+import com.sovoro.utils.AppHelper;
+import com.sovoro.utils.RequestOption;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +52,14 @@ import java.util.Map;
 // 로딩 화면
 public class SoVoRoMainLoading extends AppCompatActivity {
 
-    private ImageView loadingImageView;
-    private TextView loadingTextView;
+    private RequestQueue queue;
+    private ActivitySovoroMainLoadingBinding binding;
+    private JSONObject MainWord;
+    private JSONObject TestWord1;
+    private JSONObject TestWord2;
+    private JSONObject TestWord3;
+    private JSONObject userInfoJson;
+    private static final String TAG = "MAIN";
 
     // POST메소드 경로
     private final String LOADING_PATH="/loading";
@@ -58,17 +79,24 @@ public class SoVoRoMainLoading extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sovoro_main_loading);
 
-        loadingImageView=findViewById(R.id.sovoro_loading_image);
-        loadingTextView=findViewById(R.id.sovoro_loading_text);
+        //바인딩
+        binding = ActivitySovoroMainLoadingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        //queue 등록
+        queue = Volley.newRequestQueue(this);
+
+        //사용자 정보 저장할 JSON Object
+        userInfoJson = new JSONObject();
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.loading_rotate);
-        loadingImageView.setAnimation(animation);
+        binding.sovoroLoadingImage.setAnimation(animation);
 
         AppHelper.setRequestQueue(this);
 
+        //GET 함수
         final String URL=AppHelper.getURL(LOADING_PATH);
-<<<<<<< Updated upstream
-=======
+
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 AppHelper.getURL(LOADING_PATH),
@@ -81,8 +109,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                     TestWord1 = response.getJSONObject("TestWord1");
                     TestWord2 = response.getJSONObject("TestWord2");
                     TestWord3 = response.getJSONObject("TestWord3");
-
-
 
                     /**mainword**/
                     String main = response.getString("MainWord");
@@ -158,10 +184,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                         new Word(test3KeyList.get(m), test3ValueList.get(m));
                     }
 
-
-
-
-
                     } catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -173,10 +195,14 @@ public class SoVoRoMainLoading extends AppCompatActivity {
             }
         });
         AppHelper.requestQueueAdd(jsonRequest, RequestOption.JSONOBJECT);
->>>>>>> Stashed changes
 
-        /**
-         * 아래에 volley api를 이용한 어플리케이션 정보를 받아오는 코드 작성
-         * **/
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (queue != null) {
+            queue.cancelAll(TAG);
+        }
     }
 }
