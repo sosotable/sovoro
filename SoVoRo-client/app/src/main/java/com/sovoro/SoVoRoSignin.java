@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.sovoro.databinding.ActivitySovoroSigninBinding;
+import com.sovoro.model.UserInfo;
 import com.sovoro.utils.AppHelper;
 
 import java.util.HashMap;
@@ -110,8 +111,62 @@ public class SoVoRoSignin extends AppCompatActivity {
                         ||activitySovoroSigninBinding.sovoroPassword.getText().toString().isEmpty())
                     Toast.makeText(getApplicationContext(),"ID or Password is empty",Toast.LENGTH_LONG).show();
                     // id와 password입력창에 값이 있다면 리퀘스트 송신
+<<<<<<< Updated upstream
                 else
                     AppHelper.requestQueueAdd(stringRequest,"STRING");
+=======
+                else {
+                    try {
+                        userId=activitySovoroSigninBinding.sovoroId.getText().toString();
+                        password=activitySovoroSigninBinding.sovoroPassword.getText().toString();
+                        userInfo.put("userid", userId);
+                        userInfo.put("password", password);
+                        AppHelper.requestQueueAdd(getJsonObjectRequest(), RequestOption.JSONOBJECT);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+    JsonObjectRequest getJsonObjectRequest() {
+        return new JsonObjectRequest(
+                Request.Method.POST,
+                AppHelper.getURL(PATH),
+                userInfo,
+                new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getBoolean("returnValue")) {
+                        Intent intent = new Intent(getApplicationContext(), SoVoRoMainLoading.class);
+                        intent.putExtra("userId",userId);
+                        intent.putExtra("password",password);
+                        intent.putExtra("userNickname",response.getString("userNickname"));
+                        startActivity(intent);
+
+                        Intent getintent = getIntent();
+                        String guserid = getintent.getStringExtra("userId");
+                        String gpassword = getintent.getStringExtra("password");
+                        String gnickname = getintent.getStringExtra("userNickname");
+
+                        new UserInfo(guserid, gpassword, gnickname);
+
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"Wrong Id or password",Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Volley Error",error.toString());
+>>>>>>> Stashed changes
             }
         });
     }
