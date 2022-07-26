@@ -1,5 +1,16 @@
 package com.sovoro;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,25 +20,37 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.material.navigation.NavigationView;
+import com.sovoro.databinding.ActivitySovoroCommentBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class SoVoRoComment
         extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener
 {
+
+    private Socket socket;
+    {
+        try {
+            socket = IO.socket("http://13.58.48.132:3000");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    private ActivitySovoroCommentBinding binding;
+
+    private JSONObject commentInfo=new JSONObject();
+    private ArrayList<SoVoRoCommentInfo> alist=new ArrayList<>();
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -36,6 +59,8 @@ public class SoVoRoComment
     private Button sovoroCommentSubmitButton;
     private EditText sovoroCommentInput;
     private RecyclerView sovoroComments;
+
+    private SoVoRoCommentAdapter sovoroCommentAdapter;
 
     private LinearLayoutManager mLayoutManager;
     @Override
@@ -96,12 +121,21 @@ public class SoVoRoComment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sovoro_comment);
 
-        // 레이아웃 매니저를 통해 역순 출력ㅇㅁ
+        binding=ActivitySovoroCommentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        socket.emit("read message");
+        socket.on("read message",readMessage);
+        socket.connect();
+
+        binding.sovoroUserNickname.setText(UserInfo.nickname);
+
+        // 레이아웃 매니저를 통해 역순 출력
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
 
-        ArrayList<SoVoRoCommentInfo> alist=new ArrayList<>();
+
 
         sovoroCommentSubmitButton=findViewById(R.id.sovoro_comment_submit);
         sovoroCommentInput=findViewById(R.id.sovoro_comment_input);
@@ -125,18 +159,82 @@ public class SoVoRoComment
         sovoroCommentSubmitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String txt=sovoroCommentInput.getText().toString();
-                if(!txt.equals(""))
+                String commentcontent=binding.sovoroCommentInput.getText().toString();
+                if(!commentcontent.equals(""))
                 {
-                    SoVoRoCommentInfo sovoRoCommentInfo = new SoVoRoCommentInfo("0", txt, "0");
-                    alist.add(sovoRoCommentInfo);
-                    SoVoRoCommentAdapter sovoroCommentAdapter = new SoVoRoCommentAdapter(alist);
-                    sovoroComments.setAdapter(sovoroCommentAdapter);
+                    try {
+                        commentInfo.put("userid",UserInfo.userId);
+                        commentInfo.put("nickname",UserInfo.nickname);
+                        commentInfo.put("commentcontent",commentcontent);
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    socket.emit("add comment",commentInfo);
+                    socket.emit("read message");
+
                     sovoroCommentInput.setText("");
                 }
                 else Toast.makeText(getApplicationContext(),"내용을 입력해주세요",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+    private final Emitter.Listener readMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                ArrayList<CommentInfo> commentInfoArrayList=new ArrayList<>();
+                @Override
+                public void run() {
+                    try {
+                        JSONObject messageInfos = new JSONObject(args[0].toString());
+                        messageInfos.keys().forEachRemaining(key->{
+                            try {
+                                JSONObject messageInfo= new JSONObject(messageInfos.getString(key).toString());
+                                commentInfoArrayList.add(new CommentInfo(
+                                        messageInfo.getString("userid"),
+                                        messageInfo.getString("nickname"),
+                                        messageInfo.getString("commentcontent"),
+                                        messageInfo.getInt("commentlikes"),
+                                        Integer.parseInt(key)
+                                ));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        commentInfoArrayList.forEach(element->{
+                            SoVoRoCommentInfo sovoRoCommentInfo = new SoVoRoCommentInfo(
+                                    "0",
+                                    element.nickname,
+                                    element.commentcontent,
+                                    Integer.toString(element.commentlikes),
+                                    Integer.toString(element.commentnumber)
+                            );
+                            alist.add(sovoRoCommentInfo);
+                        });
+                        sovoroCommentAdapter = new SoVoRoCommentAdapter(alist);
+
+                        sovoroCommentAdapter.setOnItemClickListener(new SoVoRoCommentAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                SoVoRoCommentInfo soVoRoCommentInfo=alist.get(position);
+                                alist.set(position,new SoVoRoCommentInfo(
+                                        "0",
+                                        soVoRoCommentInfo.userNickname,
+                                        soVoRoCommentInfo.userComment,
+                                        Integer.toString(Integer.parseInt(soVoRoCommentInfo.userCommentLikesCount)+1),
+                                        soVoRoCommentInfo.userCommentNumber
+                                ));
+                                socket.emit("add likes",soVoRoCommentInfo.userCommentNumber);
+                            }
+                        }) ;
+                        sovoroComments.setAdapter(sovoroCommentAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+    };
 }

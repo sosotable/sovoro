@@ -156,6 +156,52 @@ io.sockets.on('connection', async (socket) => {
     socket.on('timer start', ()=>{
         interval=setInterval(timerCallback, 1000);
     })
+    socket.on('add comment', async (msg)=>{
+        let query='insert into commentinfo(userid,nickname,commentcontent) values(?,?,?)'
+        try
+        {
+            await connection.query(query,[msg.userid,msg.nickname,msg.commentcontent])
+        }
+        catch (e)
+        {
+            console.log(e)
+        }
+    })
+    socket.on('read message', async ()=>{
+        let query='select * from commentinfo limit 50'
+        let returnObj=new Object()
+        try
+        {
+            const v=await connection.query(query)
+            const infos=v[0]
+            infos.forEach((element,index,array)=>{
+                let commentNumber=element.commentnumber
+                returnObj[commentNumber]=new Object()
+                returnObj[commentNumber].userid=element.userid
+                returnObj[commentNumber].commentcontent=element.commentcontent
+                returnObj[commentNumber].commentlikes=element.commentlikes
+                returnObj[commentNumber].nickname=element.nickname
+            })
+            socket.emit('read message',returnObj)
+        }
+        catch (e)
+        {
+            console.log(e)
+        }
+    })
+    socket.on('add likes',async (msg)=>{
+        let execute;
+        const getCommentLikes=`select * from commentinfo where commentnumber=${msg}`
+        execute=await connection.query(getCommentLikes)
+        const commentLikesCount=execute[0][0].commentlikes+1
+        const updateCommentLikes= `
+                UPDATE commentinfo
+                SET
+                    commentlikes=${commentLikesCount}
+                WHERE
+                    commentnumber=${msg};`
+        execute=await connection.query(updateCommentLikes)
+    })
 })
 
 app.get('/',async (req,res)=>{
