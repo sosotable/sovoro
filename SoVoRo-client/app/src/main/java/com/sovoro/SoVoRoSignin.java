@@ -95,13 +95,6 @@ public class SoVoRoSignin extends AppCompatActivity {
                         intent.putExtra("userNickname",response.getString("userNickname"));
                         startActivity(intent);
 
-                        /**변경 내용**/
-                        Intent getintent = getIntent();
-                        String guserid = getintent.getStringExtra("userId");
-                        String gpassword = getintent.getStringExtra("password");
-                        String gnickname = getintent.getStringExtra("userNickname");
-
-                        new UserInfo(guserid, gpassword, gnickname);
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Wrong Id or password",Toast.LENGTH_LONG)

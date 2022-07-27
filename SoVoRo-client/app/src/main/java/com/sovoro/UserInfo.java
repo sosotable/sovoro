@@ -5,7 +5,7 @@ public class UserInfo {
     public static String nickname;
     public static String password;
 
-    public UserInfo(String userId, String nickname, String password) {
+    public UserInfo() {
         this.userId=userId;
         this.nickname=nickname;
         this.password=password;
