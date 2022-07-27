@@ -130,27 +130,6 @@ public class SoVoRoMain
         binding=ActivitySovoroMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /**
-         * 메인 단어 부분
-         * 현재 하드코딩으로 구현되어 있음
-         * 서버에서 받아오는 형식으로 변경해야 한다
-         * 구현 시 해당 부분 삭제
-         * **/
-        ArrayList<Word> alist=new ArrayList<>();
-        alist.add(new Word("Apple","사과"));
-        alist.add(new Word("Banana","바나나"));
-        alist.add(new Word("Cat","고양이"));
-        alist.add(new Word("Dog","개"));
-        alist.add(new Word("End","끝"));
-        alist.add(new Word("Frog","개구리"));
-        alist.add(new Word("Grape","포도"));
-        alist.add(new Word("Hippo","하마"));
-        alist.add(new Word("In","안(의)"));
-        alist.add(new Word("Juice","쥬스"));
-
-        // 단어 지정
-        DailyWords.setMainWords(alist);
-
         /**툴바 관련 코드**/
         toolbar = (Toolbar) findViewById(R.id.sovoroMainToolbar);
         setSupportActionBar(toolbar);
