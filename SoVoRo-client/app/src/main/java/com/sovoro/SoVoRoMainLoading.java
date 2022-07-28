@@ -114,7 +114,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                     Log.d(TAG, "intent 받아오기");
 
                     UserInfo information = new UserInfo();
-                    information.setUserinfo(getUserid, getPassword, getNickname);
+                    information.setUserinfo(getUserid, getPassword, getNickname,"aaaa");
                     Log.d(TAG, "userinfo에 저장");
 
 
@@ -221,7 +221,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
             }
         });
         AppHelper.requestQueueAdd(jsonRequest, RequestOption.JSONOBJECT);
-
     }
 
     @Override

@@ -22,4 +22,9 @@
         android:title="단어 한마디"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/sovoro_userinfo"
+        android:title="내 정보"
+        app:showAsAction="always"
+        />
 </menu>
