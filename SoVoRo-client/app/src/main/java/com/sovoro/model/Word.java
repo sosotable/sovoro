@@ -8,11 +8,11 @@ public class Word {
     String koreanWordDescription;
     String wordImageURL;
     public Word(Object o, Object o1) {}
-    public Word(String testType, String englishWord, String koreanWord) {
+    public Word(String englishWord, String koreanWord) {
         this.englishWord=englishWord;
         this.koreanWord=koreanWord;
 
-        if(testType == "main") {
+        /*if(testType == "main") {
             ArrayList<Word> mainTest = new ArrayList<Word>();
             mainTest.add(new Word(englishWord, koreanWord));
             //DailyWords main = new DailyWords();
@@ -32,7 +32,7 @@ public class Word {
         if(testType == "test3") {
             ArrayList<Word> testThree = new ArrayList<Word>();
             testThree.add(new Word(englishWord, koreanWord));
-        }
+        }*/
     }
     public Word(String englishWord, String koreanWord, String koreanWordDescription, String wordImageURL) {
         this.englishWord = englishWord;
@@ -71,5 +71,9 @@ public class Word {
 
     public void setWordImageURL(String wordImageURL) {
         this.wordImageURL = wordImageURL;
+    }
+
+    public String check() {
+        return "{"+"\"korean\":"+koreanWord+","+"\"english\":"+englishWord+"}";
     }
 }

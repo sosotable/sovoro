@@ -33,5 +33,10 @@ public class UserInfo {
         nickname = nick;
     }
 
+    public String usercheck() {
+        return "{"+"\"id\":"+userid+","+"\"password\":"+password+","+"\"nick\":"+nickname+"}";
+
+    }
+
 
 }
