@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d1ddea3-c398-42fd-95dc-e13c641d1a2d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data-refine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data-refine.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/dic_refine-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/dic_refine-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dic-refine.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dic-refine.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dic_refine.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/dic_refine.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dictionary_raw.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dictionary_raw.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/toCSV.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/toCSV.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../node/.idea/sshConfigs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../node/.idea/sshConfigs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../node/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../node/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../node/cookieSample.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/mysql-insert-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/mysql-insert-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-insert.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/mysql-insert.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sql/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sql/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/SoVoRoMainLoading.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/SoVoRoMainLoading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/DailyWords.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/DailyWords.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/UserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SoVoRo-client/app/src/main/java/com/sovoro/model/Word.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,18 +32,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="data-refine" />
@@ -86,6 +82,8 @@
       <option name="presentableId" value="Default" />
       <updated>1657188991436</updated>
       <workItem from="1657188993086" duration="944000" />
+      <workItem from="1659602170923" duration="205000" />
+      <workItem from="1659620493040" duration="487000" />
     </task>
     <servers />
   </component>

@@ -47,8 +47,7 @@ public class SoVoRoAttendanceCalendar
         implements
         NavigationView.OnNavigationItemSelectedListener
 {
-    private final float pageMargin= getResources().getDimensionPixelOffset(R.dimen.pageMargin);
-    private final float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+
 
     // 툴바 관련 객체
     private Toolbar toolbar;

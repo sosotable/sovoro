@@ -12,27 +12,6 @@ public class Word {
         this.englishWord=englishWord;
         this.koreanWord=koreanWord;
 
-        /*if(testType == "main") {
-            ArrayList<Word> mainTest = new ArrayList<Word>();
-            mainTest.add(new Word(englishWord, koreanWord));
-            //DailyWords main = new DailyWords();
-            //main.
-        }
-
-        if(testType == "test1") {
-            ArrayList<Word> testOne = new ArrayList<Word>();
-            testOne.add(new Word(englishWord, koreanWord));
-        }
-
-        if(testType == "test2") {
-            ArrayList<Word> testTwo = new ArrayList<Word>();
-            testTwo.add(new Word(englishWord, koreanWord));
-        }
-
-        if(testType == "test3") {
-            ArrayList<Word> testThree = new ArrayList<Word>();
-            testThree.add(new Word(englishWord, koreanWord));
-        }*/
     }
     public Word(String englishWord, String koreanWord, String koreanWordDescription, String wordImageURL) {
         this.englishWord = englishWord;
@@ -73,7 +52,14 @@ public class Word {
         this.wordImageURL = wordImageURL;
     }
 
-    public String check() {
-        return "{"+"\"korean\":"+koreanWord+","+"\"english\":"+englishWord+"}";
+    /**toString 메서드 사용**/
+    @Override
+    public String toString() {
+        return "Word{" +
+                "englishWord='" + englishWord + '\'' +
+                ", koreanWord='" + koreanWord + '\'' +
+                ", koreanWordDescription='" + koreanWordDescription + '\'' +
+                ", wordImageURL='" + wordImageURL + '\'' +
+                '}';
     }
 }
