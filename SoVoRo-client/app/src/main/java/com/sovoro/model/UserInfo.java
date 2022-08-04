@@ -34,10 +34,12 @@ public class UserInfo {
         userImage= userimg;
     }
 
-    public String usercheck() {
-        return "{"+"\"id\":"+userid+","+"\"password\":"+password+","+"\"nick\":"+nickname+"}";
-
+    public String toString() {
+        return "UserInfo{" +
+                "userid='" + userid + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", userImage='" + userImage + '\'' +
+                '}';
     }
-
-
 }

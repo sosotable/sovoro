@@ -37,7 +37,7 @@ public class SoVoRoWord10 extends Fragment {
 
     public SoVoRoWord10() {
         // Required empty public constructor
-        mainWord= DailyWords.dailyWordsMap.get(WordOption.MAINWORD).get(8);
+        mainWord= DailyWords.dailyWordsMap.get(WordOption.MAINWORD).get(9);
     }
 
     /**

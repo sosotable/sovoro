@@ -2,13 +2,18 @@ package com.sovoro.testview;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 
 import com.sovoro.R;
+import com.sovoro.model.DailyWords;
+import com.sovoro.model.Word;
+import com.sovoro.model.WordOption;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +31,23 @@ public class SoVoRoTest5 extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Word mainWord;
+    private Word testWord1;
+    private Word testWord2;
+    private Word testWord3;
+
+    private AppCompatTextView main;
+    private RadioButton test1;
+    private RadioButton test2;
+    private RadioButton test3;
+    private RadioButton test4;
+
     public SoVoRoTest5() {
         // Required empty public constructor
+        mainWord= DailyWords.dailyWordsMap.get(WordOption.MAINWORD).get(4);
+        testWord1=DailyWords.dailyWordsMap.get(WordOption.TESTWORD_1).get(4);
+        testWord2=DailyWords.dailyWordsMap.get(WordOption.TESTWORD_2).get(4);
+        testWord3=DailyWords.dailyWordsMap.get(WordOption.TESTWORD_3).get(4);
     }
 
     /**
@@ -60,7 +80,18 @@ public class SoVoRoTest5 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sovoro_test5, container, false);
+        View view=inflater.inflate(R.layout.fragment_sovoro_test5, container, false);
+        main=view.findViewById(R.id.sovoro_question_5);
+        test1=view.findViewById(R.id.sovoro_answer_radio_5_1);
+        test2=view.findViewById(R.id.sovoro_answer_radio_5_2);
+        test3=view.findViewById(R.id.sovoro_answer_radio_5_3);
+        test4=view.findViewById(R.id.sovoro_answer_radio_5_4);
+
+        main.setText(mainWord.getEnglishWord());
+        test1.setText(mainWord.getKoreanWord());
+        test2.setText(testWord1.getKoreanWord());
+        test3.setText(testWord2.getKoreanWord());
+        test4.setText(testWord3.getKoreanWord());
+        return view;
     }
 }
