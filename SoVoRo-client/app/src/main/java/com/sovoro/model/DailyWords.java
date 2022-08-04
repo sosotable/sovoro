@@ -15,4 +15,8 @@ public class DailyWords {
     public static ArrayList<Word> getWordList(WordOption wordOption) {
         return dailyWordsMap.get(wordOption);
     }
+
+    public static String check(WordOption wordOption) {
+        return "{"+"\"korean\":"+dailyWordsMap.get(wordOption).get(0).getKoreanWord()+","+"\"english\":"+dailyWordsMap.get(wordOption).get(0).getEnglishWord()+"}";
+    }
 }
