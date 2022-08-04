@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.sovoro.databinding.ActivitySovoroCommentBinding;
+import com.sovoro.model.UserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +164,7 @@ public class SoVoRoComment
                 if(!commentcontent.equals(""))
                 {
                     try {
-                        commentInfo.put("userid",UserInfo.userId);
+                        commentInfo.put("userid",UserInfo.userid);
                         commentInfo.put("nickname",UserInfo.nickname);
                         commentInfo.put("commentcontent",commentcontent);
                     }

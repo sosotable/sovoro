@@ -170,6 +170,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                     Log.d(TAG, "intent 받아오기");
 
                     UserInfo information = new UserInfo();
+
                     information.setUserinfo(getUserid, getPassword, getNickname);
                     Log.d(TAG, information.usercheck());
 
@@ -407,8 +408,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
             }
         });
         AppHelper.requestQueueAdd(jsonRequest, RequestOption.JSONOBJECT);
-
-
     }
 
     @Override

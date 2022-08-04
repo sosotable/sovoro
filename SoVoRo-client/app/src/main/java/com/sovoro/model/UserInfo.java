@@ -21,16 +21,17 @@ import java.util.Map;
 
 public class UserInfo {
 
-    public static String userid, password, nickname;
+    public static String userid, password, nickname, userImage;
 
     public UserInfo() {
     }
 
 
-    public static void setUserinfo (String id, String pass, String nick) {
+    public static void setUserinfo (String id, String pass, String nick, String userimg) {
         userid = id;
         password = pass;
         nickname = nick;
+        userImage= userimg;
     }
 
     public String usercheck() {

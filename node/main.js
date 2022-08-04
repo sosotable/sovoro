@@ -1,5 +1,5 @@
 const bodyParser = require("body-parser");
-const fs=require('fs')
+const fs=require('node:fs/promises')
 
 // 웹서버 모듈 nodejs express사용
 const express = require('express')
@@ -90,6 +90,9 @@ app.use(cookieParser());
 app.use(express.json());
 // post받으면서 인코딩 안 깨지도록 하기 위함
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/userImages", express.static(__dirname + '/userImages'));
+
 /** 이 윗 부분은 기본 설정-어려우면 대충 그렇구나 하고 넘어가먄 된다- **/
 
 io.sockets.on('connection', async (socket) => {
@@ -202,6 +205,16 @@ io.sockets.on('connection', async (socket) => {
                     commentnumber=${msg};`
         execute=await connection.query(updateCommentLikes)
     })
+    socket.on('upload image', async (msg) => {
+        console.log(msg)
+        let query= `
+            UPDATE userinfo
+            SET userimage=?
+            WHERE userid=?`
+        await connection.query(query
+            ,[`http://13.58.48.132:3000/userImages/${msg.userid}.png`,`${msg.userid}`])
+        await fs.writeFile(`./userImages/${msg.userid}.png`,msg.userImage,'utf-8')
+    });
 })
 
 app.get('/',async (req,res)=>{

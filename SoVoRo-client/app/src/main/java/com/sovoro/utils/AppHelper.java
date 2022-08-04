@@ -36,7 +36,6 @@ public class AppHelper {
             case "JSONOBJECT":
                 requestQueue.add((JsonObjectRequest)request);
                 break;
-
         }
     }
     // 리퀘스트를 보내고자 하는 경로 설정
