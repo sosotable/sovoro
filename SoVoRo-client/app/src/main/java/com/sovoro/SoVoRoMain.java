@@ -63,13 +63,21 @@ public class SoVoRoMain
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             /**상단 메뉴 버튼 클릭**/
             /**case를 통해 옵션-현재 미구현-**/
-            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
+            case android.R.id.home: // 왼쪽 상단 버튼 눌렀을 때
                 drawer.openDrawer(GravityCompat.START);
                 break;
-            }
+            case R.id.menuNotifications:
+                intent = new Intent(getApplicationContext(),SoVoRoNotification.class);
+                startActivity(intent);
+                break;
+            case R.id.menuSearch:
+                intent = new Intent(getApplicationContext(),SoVoRoSearch.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
