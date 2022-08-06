@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sovoro_userpic"
         android:layout_width="250dp"
         android:layout_height="250dp"
@@ -23,7 +23,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="50dp"
         >
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:text="안녕하세요! "
             android:fontFamily="@font/jua"
             />
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/sovoro_greetuser_1"
@@ -44,7 +44,7 @@
             android:id="@+id/sovoro_username"
             android:fontFamily="@font/jua"
             />
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sovoro_greetuser_2"

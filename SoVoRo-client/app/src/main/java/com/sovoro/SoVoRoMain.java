@@ -3,6 +3,8 @@ package com.sovoro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -12,15 +14,18 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.sovoro.databinding.ActivitySovoroMainBinding;
 import com.sovoro.databinding.ActivitySovoroSigninBinding;
 import com.sovoro.model.DailyWords;
+import com.sovoro.model.UserInfo;
 import com.sovoro.model.Word;
 import com.sovoro.model.WordOption;
 import com.sovoro.wordview.SoVoRoWordAdapter;
@@ -111,6 +116,10 @@ public class SoVoRoMain
                 intent = new Intent(getApplicationContext(), SoVoRoComment.class);
                 startActivity(intent);
                 break;
+            case R.id.sovoro_userinfo:
+                intent = new Intent(getApplicationContext(), SoVoRoUserInfo.class);
+                startActivity(intent);
+                break;
         }
         // 만약 err state라면 false return
         return false;
@@ -152,6 +161,17 @@ public class SoVoRoMain
         /**네비게이션뷰 관련 코드**/
         navigationView=findViewById(R.id.sovoroMainDrawerView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //출처: https://ljs93kr.tistory.com/16 [건프의 소소한 개발이야기:티스토리]
+        //View nav_header_view = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        View nav_header_view = navigationView.getHeaderView(0);
+
+        AppCompatImageView userImage=nav_header_view.findViewById(R.id.sovoro_userpic);
+        AppCompatTextView userId=nav_header_view.findViewById(R.id.sovoro_username);
+        Glide.with(this)
+                .load(UserInfo.userImage)
+                .into(userImage);
+        userId.setText(UserInfo.nickname);
 
         /**뷰페이저 관련 코드**/
 

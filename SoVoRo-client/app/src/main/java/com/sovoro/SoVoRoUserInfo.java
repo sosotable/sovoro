@@ -5,6 +5,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -51,12 +53,26 @@ public class SoVoRoUserInfo extends AppCompatActivity {
         binding = ActivitySovoroUserInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Glide.with(this)
+                .load(UserInfo.userImage)
+                .into(binding.userImage);
+        binding.userId.setText(UserInfo.nickname);
         mSocket.connect();
+
         binding.changeUserImage.setOnClickListener(v->{
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            launcher.launch(intent);
+            Log.d("AAAA","AAAAAAAA");
+            if (verifyPermissions()) {
+                Log.d("AAAA","BBBBBBB");
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                launcher.launch(intent);
+            }
+        });
+
+        binding.myComments.setOnClickListener(view->{
+            Intent intent=new Intent(getApplicationContext(),MyComments.class);
+            startActivity(intent);
         });
     }
 
@@ -72,9 +88,7 @@ public class SoVoRoUserInfo extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result)
                 {
-                    if (!verifyPermissions()) {
-                        return;
-                    }
+
                     if (result.getResultCode() == RESULT_OK) {
                         Intent intent = result.getData();
                         Uri uri = intent.getData();
@@ -108,12 +122,12 @@ public class SoVoRoUserInfo extends AppCompatActivity {
                 }
             });
     public Boolean verifyPermissions() {
-
+        Log.d("AAAA","CCCCC");
         // This will return the current Status
         int permissionExternalMemory = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
-
+            Log.d("AAAA","DDDDD");
             String[] STORAGE_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
             // If permission not granted then ask for permission real time.
             ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, 1);

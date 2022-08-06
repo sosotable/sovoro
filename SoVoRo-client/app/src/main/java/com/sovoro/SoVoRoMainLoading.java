@@ -90,27 +90,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
     private RequestQueue queue;
     private ActivitySovoroMainLoadingBinding binding;
 
-    private FragmentSovoroWord1Binding word1;
-    private FragmentSovoroWord2Binding word2;
-    private FragmentSovoroWord3Binding word3;
-    private FragmentSovoroWord4Binding word4;
-    private FragmentSovoroWord5Binding word5;
-    private FragmentSovoroWord6Binding word6;
-    private FragmentSovoroWord7Binding word7;
-    private FragmentSovoroWord8Binding word8;
-    private FragmentSovoroWord9Binding word9;
-    private FragmentSovoroWord10Binding word10;
-
-    private FragmentSovoroTest1Binding Test1;
-    private FragmentSovoroTest2Binding Test2;
-    private FragmentSovoroTest3Binding Test3;
-    private FragmentSovoroTest4Binding Test4;
-    private FragmentSovoroTest5Binding Test5;
-    private FragmentSovoroTest6Binding Test6;
-    private FragmentSovoroTest7Binding Test7;
-    private FragmentSovoroTest8Binding Test8;
-    private FragmentSovoroTest9Binding Test9;
-    private FragmentSovoroTest10Binding Test10;
 
     private JSONObject MainWord;
     private JSONObject TestWord1;
@@ -172,8 +151,9 @@ public class SoVoRoMainLoading extends AppCompatActivity {
                     String getUserid = getIntent.getStringExtra("userId");
                     String getPassword = getIntent.getStringExtra("password");
                     String getNickname = getIntent.getStringExtra("userNickname");
+                    String getUserImage=getIntent.getStringExtra("userImage");
 
-                    UserInfo.setUserinfo(getUserid, getPassword, getNickname,null);
+                    UserInfo.setUserinfo(getUserid, getPassword, getNickname,getUserImage);
 
                     MainWord = response.getJSONObject("MainWord");
                     TestWord1 = response.getJSONObject("TestWord1");

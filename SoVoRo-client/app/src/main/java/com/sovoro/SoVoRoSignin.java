@@ -88,13 +88,13 @@ public class SoVoRoSignin extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.getBoolean("returnValue")) {
+                    if (response.getBoolean("success")) {
                         Intent intent = new Intent(getApplicationContext(), SoVoRoMainLoading.class);
                         intent.putExtra("userId",userId);
                         intent.putExtra("password",password);
                         intent.putExtra("userNickname",response.getString("userNickname"));
+                        intent.putExtra("userImage",response.getString("userImage"));
                         startActivity(intent);
-
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Wrong Id or password",Toast.LENGTH_LONG)
