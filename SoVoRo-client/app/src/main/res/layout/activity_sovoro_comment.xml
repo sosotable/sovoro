@@ -23,19 +23,18 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/sovoro_comment_toolbar"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/sovoro_comment_user_submit_layout"
             >
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/sovoro_user_image"
+                android:id="@+id/sovoroUserImage"
 
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/gom"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 app:layout_constraintRight_toLeftOf="@id/sovoro_comment_input"
                 />
             <androidx.appcompat.widget.AppCompatTextView
@@ -49,29 +48,29 @@
                 android:textSize="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/sovoro_comment_input"
-                app:layout_constraintTop_toBottomOf="@id/sovoro_user_image"
+                app:layout_constraintTop_toBottomOf="@id/sovoroUserImage"
                 android:layout_marginTop="20dp"
                 />
             <androidx.appcompat.widget.AppCompatEditText
                 android:textColor="@color/black_grey"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="150dp"
-                android:layout_marginLeft="20dp"
-                app:layout_constraintLeft_toRightOf="@id/sovoro_user_image"
+                app:layout_constraintLeft_toRightOf="@id/sovoroUserImage"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/sovoro_comment_input"
                 android:maxLines="2"
                 android:maxLength="30"
                 android:inputType="textMultiLine"
                 style="@style/EditText_Style"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:hint="예쁜 말만 써 주세요"
                 android:padding="20dp"
                 android:gravity="start"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/sovoro_comment_submit"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
 
                 app:layout_constraintRight_toRightOf="@id/sovoro_comment_input"
@@ -83,7 +82,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sovoro_comments"
+            android:id="@+id/sovoroComments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="10dp"

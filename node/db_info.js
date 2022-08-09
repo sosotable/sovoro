@@ -12,7 +12,7 @@ module.exports = (()=>{
             host: '13.58.48.132',
             port: '3306',
             user: 'DWORD',
-            password: 'ssp',
+            password: 'mysql7968!',
             database: 'DWORD'
         },
         dev: { // dev server db info

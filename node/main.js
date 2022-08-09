@@ -93,6 +93,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/userImages", express.static(__dirname + '/userImages'));
 
+const engPattern = /[a-zA-Z]/; //영어
+const korPattern = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //한글
+
 /** 이 윗 부분은 기본 설정-어려우면 대충 그렇구나 하고 넘어가먄 된다- **/
 
 io.sockets.on('connection', async (socket) => {
@@ -116,7 +119,6 @@ io.sockets.on('connection', async (socket) => {
         } catch (e) {
             console.log(e)
         } finally {
-            console.log(returnObj)
             io.emit('id check',returnObj)
         }
     })
@@ -131,43 +133,7 @@ io.sockets.on('connection', async (socket) => {
         } catch (e) {
             console.log(e)
         } finally {
-            console.log(returnObj)
             io.emit('nickname check',returnObj)
-        }
-        console.log(msg)
-    })
-    socket.on('mail check', async (msg)=>{
-        const randNum=Math.floor(Math.random() * (999999 - 100000) + 100000)
-        let returnObj=new Object()
-        returnObj.mailAuth=String(randNum)
-        await nodeoutlook.sendEmail({
-                auth: {
-                    "user": "ssossotable@outlook.com",
-                    "pass": "kiter7968!"
-                },
-                from: "ssossotable@outlook.com",
-                to: msg,
-                subject: '소소식탁 소보로 인증 번호입니다',
-                text: "인증 번호를 입력해 주세요: "+String(randNum),
-                replyTo: 'ssossotable@outlook.com',
-                onError: (e) => console.log(e),
-                onSuccess: (i) => console.log(i)
-            }
-        )
-        io.emit('mail check',returnObj)
-    })
-    socket.on('timer start', ()=>{
-        interval=setInterval(timerCallback, 1000);
-    })
-    socket.on('add comment', async (msg)=>{
-        let query='insert into commentinfo(userid,nickname,commentcontent) values(?,?,?)'
-        try
-        {
-            await connection.query(query,[msg.userid,msg.nickname,msg.commentcontent])
-        }
-        catch (e)
-        {
-            console.log(e)
         }
     })
     socket.on('read message', async ()=>{
@@ -177,24 +143,58 @@ io.sockets.on('connection', async (socket) => {
         {
             const v=await connection.query(query)
             const infos=v[0]
-            infos.forEach((element,index,array)=>{
-                let commentNumber=element.commentnumber
-                returnObj[commentNumber]=new Object()
-                returnObj[commentNumber].userid=element.userid
-                returnObj[commentNumber].commentcontent=element.commentcontent
-                returnObj[commentNumber].commentlikes=element.commentlikes
-                returnObj[commentNumber].nickname=element.nickname
-            })
-            socket.emit('read message',returnObj)
+            for(let i=0;i<infos.length;i++){
+                const k=await connection.query(`select userimage from userinfo where userid='${infos[i].userid}'`)
+                let commentId=infos[i].commentid
+                returnObj[commentId]=new Object()
+                returnObj[commentId].userid=infos[i].userid
+                returnObj[commentId].userimage=k[0][0].userimage
+                returnObj[commentId].commentcontent=infos[i].commentcontent
+                returnObj[commentId].commentlikes=infos[i].commentlikes
+                returnObj[commentId].nickname=infos[i].nickname
+            }
         }
         catch (e)
         {
             console.log(e)
         }
+        finally {
+            socket.emit('read message',returnObj)
+        }
+    })
+    socket.on('read message', async ()=>{
+        let query='select * from commentinfo limit 50'
+        let returnObj=new Object()
+        try
+        {
+            const v=await connection.query(query)
+            const infos=v[0]
+            await infos.forEach(async (element,index,array)=>{
+                const k=await connection.query(`select userimage from userinfo where userid='${element.userid}'`)
+                console.log(k[0][0].userimage)
+                let commentId=element.commentid
+                returnObj[commentId]=new Object()
+                returnObj[commentId].userid=element.userid
+                returnObj[commentId].userimage=k[0][0].userimage
+                returnObj[commentId].commentcontent=element.commentcontent
+                returnObj[commentId].commentlikes=element.commentlikes
+                returnObj[commentId].nickname=element.nickname
+            })
+
+        }
+        catch (e)
+        {
+            console.log(e)
+        }
+        finally {
+            console.log('hello?')
+            console.log(returnObj);
+            await socket.emit('read message',returnObj)
+        }
     })
     socket.on('add likes',async (msg)=>{
         let execute;
-        const getCommentLikes=`select * from commentinfo where commentnumber=${msg}`
+        const getCommentLikes=`select * from commentinfo where commentid=${msg}`
         execute=await connection.query(getCommentLikes)
         const commentLikesCount=execute[0][0].commentlikes+1
         const updateCommentLikes= `
@@ -215,6 +215,19 @@ io.sockets.on('connection', async (socket) => {
             ,[`http://13.58.48.132:3000/userImages/${msg.userid}.png`,`${msg.userid}`])
         await fs.writeFile(`./userImages/${msg.userid}.png`,msg.userImage,'utf-8')
     });
+    socket.on('word search', async msg=>{
+        if(engPattern.test(msg)) {
+            const query=`select * from wordinfo where engword like '%${msg}%'`
+            const r=await connection.query(query);
+            const v=r[0]
+            io.emit('search result', v)
+        } else if(korPattern.test(msg)) {
+            const query=`select * from wordinfo where korword like '%${msg}%'`
+            const r=await connection.query(query);
+            const v=r[0]
+            io.emit('search result', v)
+        }
+    })
 })
 
 app.get('/',async (req,res)=>{
@@ -223,56 +236,34 @@ app.get('/',async (req,res)=>{
 
 /**라우팅**/
 app.get('/loading',async (req,res)=>{
-    let dayCookie=await getDayCookie()
-    let wordJsonObjects=new Object()
+    let dayCookie = await getDayCookie()
+    let wordJsonObjects = new Object()
 
-    if (req.cookies.dayCookie) {
-        if(req.cookies.dayCookie!=dayCookie)
-        {
-            await res.clearCookie('dayCookie',{path:'/loading'})
-            res.cookie('dayCookie', dayCookie, {
-                // 쿠키 만료일은 현재시각+하루
-                expires: new Date(Date.now() + 86400000),
-                // 웹 서버에서만 접근 가능
-                httpOnly: true,
-                // 쿠키 경로
-                path: '/loading'
-            })
-            wordJsonObjects.MainWord=await getWordJson()
-            wordJsonObjects.TestWord1=await getWordJson()
-            wordJsonObjects.TestWord2=await getWordJson()
-            wordJsonObjects.TestWord3=await getWordJson()
-            await fs.writeFile('./dailyWords.json',JSON.stringify(wordJsonObjects),'utf-8',err => {
-                if(err) throw err
-            })
-            res.send(wordJsonObjects)
-        }
-        else
-        {
-            res.sendFile(__dirname+'/dailyWords.json')
-        }
-    }
-    /**dayCookie가 없다면 오늘 날짜로 등록**/
-    else
-    {
-        res.cookie('dayCookie',dayCookie,{
-            // 쿠키 만료일은 현재시각+하루
-            expires: new Date(Date.now() + 86400000),
-            // 웹 서버에서만 접근 가능
-            httpOnly: true,
-            // 쿠키 경로
-            path: '/loading'
-        })
+    const v=await connection.query(`select * from dailywords where daycookie='${dayCookie}'`);
+    if(v[0].length==0) {
         wordJsonObjects.MainWord=await getWordJson()
         wordJsonObjects.TestWord1=await getWordJson()
         wordJsonObjects.TestWord2=await getWordJson()
         wordJsonObjects.TestWord3=await getWordJson()
-        await fs.writeFile('./dailyWords.json',JSON.stringify(wordJsonObjects),'utf-8',err => {
-            if(err) throw err
-        })
-        res.send(wordJsonObjects)
+        let query='insert into dailywords values(?,?,?,?,?)'
+        await connection.query(query,[
+            dayCookie,
+            JSON.stringify(wordJsonObjects.MainWord),
+            JSON.stringify(wordJsonObjects.TestWord1),
+            JSON.stringify(wordJsonObjects.TestWord2),
+            JSON.stringify(wordJsonObjects.TestWord3)
+        ])
+    } else {
+        let mainWord=await connection.query(`select mainword from dailywords where daycookie='${dayCookie}';`)
+        let testWord1=await connection.query(`select testword1 from dailywords where daycookie='${dayCookie}';`)
+        let testWord2=await connection.query(`select testword2 from dailywords where daycookie='${dayCookie}';`)
+        let testWord3=await connection.query(`select testword3 from dailywords where daycookie='${dayCookie}';`)
+        wordJsonObjects.MainWord=JSON.parse(mainWord[0][0].mainword)
+        wordJsonObjects.TestWord1=JSON.parse(testWord1[0][0].testword1)
+        wordJsonObjects.TestWord2=JSON.parse(testWord2[0][0].testword2)
+        wordJsonObjects.TestWord3=JSON.parse(testWord3[0][0].testword3)
     }
-
+    res.send(wordJsonObjects)
 })
 
 app.post('/signin', async (req,res)=> {
@@ -291,7 +282,7 @@ app.post('/signin', async (req,res)=> {
     const password=req.body.password;
     console.log(req.body)
     try {
-        let query = `select nickname as res from userinfo where userid=? and password=?`
+        let query = `select * from userinfo where userid=? and password=?`
         const v=await connection.query(query,[req.body.userid,req.body.password])
         // console.log(v[0])
         if(v[0].length==0) {
@@ -299,19 +290,15 @@ app.post('/signin', async (req,res)=> {
         }
         else
         {
-            returnObj.returnValue=true
-            returnObj.userNickname=v[0][0].res
-            if(!req.cookies.userInfo) {
-                userInfo.userid=req.body.userid
-                userInfo.password=req.body.password
-                userInfo.nickname=v[0][0].nickname
-                res.cookie('userInfo', userInfo, cookieConfig);
-            }
+            returnJson=v[0][0]
+            returnObj.success=true
+            returnObj.userNickname=returnJson.nickname
+            returnObj.userImage=returnJson.userimage
         }
     }
     catch (e)
     {
-        console.log('one')
+        console.log(e)
         returnObj.success=false
     }
     finally {
@@ -339,7 +326,6 @@ app.post('/signup',async (req,res)=>{
         console.log(returnObj)
         res.send(returnObj)
     }
-
 })
 
 // 영단어 10개가 제공되는 메인화면

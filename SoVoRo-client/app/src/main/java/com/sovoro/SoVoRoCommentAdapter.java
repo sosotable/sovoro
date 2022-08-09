@@ -95,7 +95,7 @@ public class SoVoRoCommentAdapter extends RecyclerView.Adapter<SoVoRoCommentAdap
         String userImage=soVoRoCommentInfo.userImage;
         String userNickname=soVoRoCommentInfo.userNickname;
         String userComment=soVoRoCommentInfo.userComment;
-        String userCommentLikesCount=soVoRoCommentInfo.userCommentLikesCount;
+        String userCommentLikesCount=Integer.toString(soVoRoCommentInfo.userCommentLikesCount);
         // Glide사용 이미지 지정
         // holder.userImage.setImageIcon(userImage);
 
@@ -109,6 +109,14 @@ public class SoVoRoCommentAdapter extends RecyclerView.Adapter<SoVoRoCommentAdap
     public int getItemCount() {
         return commentViewData.size() ;
     }
-
+    public void setList(ArrayList<SoVoRoCommentInfo> alist) {
+        this.commentViewData=alist;
+        notifyItemInserted(commentViewData.size());
+        notifyDataSetChanged();
+    }
+    public void addItem(SoVoRoCommentInfo soVoRoCommentInfo) {
+        commentViewData.add(soVoRoCommentInfo);
+        notifyDataSetChanged();
+    }
 
 }

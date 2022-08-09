@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="13.58.48.132" id="8d42ef3a-811b-4937-9caa-0e325fc9138f" keyPath="$PROJECT_DIR$/../../aws-info/aws_key/key.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+      <sshConfig connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="13.58.48.132" id="8d42ef3a-811b-4937-9caa-0e325fc9138f" keyPath="$PROJECT_DIR$/../../aws-info/aws_key/key.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

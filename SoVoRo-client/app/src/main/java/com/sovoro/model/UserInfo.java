@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class UserInfo {
 
-    public static String userid="test";
-    public static String password="test";
-    public static String nickname="test";
+    public static String userid="test1";
+    public static String password="test1";
+    public static String nickname="test1";
     public static String userImage=null;
 
     public UserInfo() {
