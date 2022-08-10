@@ -54,22 +54,9 @@ public class SoVoRoCommentAdapter extends RecyclerView.Adapter<SoVoRoCommentAdap
                             mListener.onItemClick(v, pos) ;
                         }
                     }
-                    userCommentLikesCount.setText(commentViewData.get(pos).userCommentLikesCount);
                 }
             });
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int pos = getAdapterPosition() ;
-//                    if (pos != RecyclerView.NO_POSITION) {
-//                        // 리스너 객체의 메서드 호출.
-//                        if (mListener != null) {
-//                            mListener.onItemClick(v, pos) ;
-//                        }
-//                    }
-//                }
-//            });
         }
     }
     // 생성자에서 데이터 리스트 객체를 전달받음.
@@ -117,6 +104,19 @@ public class SoVoRoCommentAdapter extends RecyclerView.Adapter<SoVoRoCommentAdap
     public void addItem(SoVoRoCommentInfo soVoRoCommentInfo) {
         commentViewData.add(soVoRoCommentInfo);
         notifyDataSetChanged();
+    }
+    public void addLikes(int position) {
+        commentViewData.get(position).setUserCommentLikesCount(commentViewData.get(position).getUserCommentLikesCount()+1);
+        notifyItemChanged(position);
+    }
+    public int getLikesCount(int position) {
+        return commentViewData.get(position).getUserCommentLikesCount();
+    }
+    public String getCommentOwner(int position) {
+        return commentViewData.get(position).getUserNickname();
+    }
+    public int getCommentNumber(int position) {
+        return commentViewData.get(position).getUserCommentNumber();
     }
 
 }
