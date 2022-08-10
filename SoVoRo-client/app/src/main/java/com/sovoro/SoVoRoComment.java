@@ -143,6 +143,7 @@ public class SoVoRoComment
 
         socket.emit("read message");
         socket.on("read message",readMessage);
+        socket.on("add likes",addLikes);
         socket.connect();
 
         sovoroCommentSubmitButton=findViewById(R.id.sovoro_comment_submit);
@@ -186,6 +187,32 @@ public class SoVoRoComment
                 //sovoroCommentAdapter.addItem(new SoVoRoCommentInfo("AA","BB","CC",1,2));
             }
         });
+        sovoroCommentAdapter.setOnItemClickListener(new SoVoRoCommentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+
+                JSONObject addLikes=new JSONObject();
+                try {
+                    addLikes.put("position",position);
+                    addLikes.put("commentId",sovoroCommentAdapter.getCommentNumber(position));
+                    addLikes.put("commentedUser",UserInfo.nickname);
+                    addLikes.put("commentOwner",sovoroCommentAdapter.getCommentOwner(position));
+                    addLikes.put("commentLikesCount",sovoroCommentAdapter.getLikesCount(position));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                socket.emit("add likes",addLikes);
+//                                SoVoRoCommentInfo soVoRoCommentInfo=alist.get(position);
+//                                alist.set(position,new SoVoRoCommentInfo(
+//                                        "0",
+//                                        soVoRoCommentInfo.userNickname,
+//                                        soVoRoCommentInfo.userComment,
+//                                        Integer.toString(Integer.parseInt(alist.userCommentLikesCount)+1),
+//                                        soVoRoCommentInfo.userCommentNumber
+//                                ));
+//                                socket.emit("add likes",soVoRoCommentInfo.userCommentNumber);
+            }
+        }) ;
     }
     private final Emitter.Listener readMessage = new Emitter.Listener() {
         @Override
@@ -219,24 +246,25 @@ public class SoVoRoComment
                         });
                         if(mLayoutManager != null)
                             mLayoutManager.scrollToPositionWithOffset(sovoroCommentAdapter.getItemCount()-2, 0);
-                        //sovoroCommentAdapter.setList(alist);
-                        //sovoroCommentAdapter.notifyItemInserted(alist.size());
-
-//                        sovoroCommentAdapter.setOnItemClickListener(new SoVoRoCommentAdapter.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(View v, int position) {
-//                                SoVoRoCommentInfo soVoRoCommentInfo=alist.get(position);
-//                                alist.set(position,new SoVoRoCommentInfo(
-//                                        "0",
-//                                        soVoRoCommentInfo.userNickname,
-//                                        soVoRoCommentInfo.userComment,
-//                                        Integer.toString(Integer.parseInt(alist.userCommentLikesCount)+1),
-//                                        soVoRoCommentInfo.userCommentNumber
-//                                ));
-//                                socket.emit("add likes",soVoRoCommentInfo.userCommentNumber);
-//                            }
-//                        }) ;
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
+    private final Emitter.Listener addLikes = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject messageInfos = (JSONObject) args[0];
+                    try {
+                        if(!messageInfos.getBoolean("click")) {
+                            sovoroCommentAdapter.addLikes(messageInfos.getInt("position"));
+                        }
+                    }  catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }

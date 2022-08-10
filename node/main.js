@@ -136,12 +136,37 @@ io.sockets.on('connection', async (socket) => {
             io.emit('nickname check',returnObj)
         }
     })
-    socket.on('read message', async ()=>{
-        let query='select * from commentinfo limit 50'
+    socket.on('mail check', async (msg)=>{
+        const randNum=Math.floor(Math.random() * (999999 - 100000) + 100000)
+        let returnObj=new Object()
+        returnObj.mailAuth=String(randNum)
+        await nodeoutlook.sendEmail({
+                auth: {
+                    "user": "ssossotable@outlook.com",
+                    "pass": "kiter7968!"
+                },
+                from: "ssossotable@outlook.com",
+                to: msg,
+                subject: '소소식탁 소보로 인증 번호입니다',
+                text: "인증 번호를 입력해 주세요: "+String(randNum),
+                replyTo: 'ssossotable@outlook.com',
+                onError: (e) => console.log(e),
+                onSuccess: (i) => console.log(i)
+            }
+        )
+        io.emit('mail check',returnObj)
+    })
+    socket.on('timer start', ()=>{
+        interval=setInterval(timerCallback, 1000);
+    })
+    socket.on('add comment', async (msg)=>{
+        let query1='insert into commentinfo(userid,nickname,commentcontent) values(?,?,?)'
+        let query2='select * from commentinfo order by commentid desc limit 1'
         let returnObj=new Object()
         try
         {
-            const v=await connection.query(query)
+            await connection.query(query1,[msg.userid,msg.nickname,msg.commentcontent])
+            const v=await connection.query(query2)
             const infos=v[0]
             for(let i=0;i<infos.length;i++){
                 const k=await connection.query(`select userimage from userinfo where userid='${infos[i].userid}'`)
@@ -169,41 +194,63 @@ io.sockets.on('connection', async (socket) => {
         {
             const v=await connection.query(query)
             const infos=v[0]
-            await infos.forEach(async (element,index,array)=>{
-                const k=await connection.query(`select userimage from userinfo where userid='${element.userid}'`)
-                console.log(k[0][0].userimage)
-                let commentId=element.commentid
+            for(let i=0;i<infos.length;i++){
+                const k=await connection.query(`select userimage from userinfo where userid='${infos[i].userid}'`)
+                let commentId=infos[i].commentid
                 returnObj[commentId]=new Object()
-                returnObj[commentId].userid=element.userid
+                returnObj[commentId].userid=infos[i].userid
                 returnObj[commentId].userimage=k[0][0].userimage
-                returnObj[commentId].commentcontent=element.commentcontent
-                returnObj[commentId].commentlikes=element.commentlikes
-                returnObj[commentId].nickname=element.nickname
-            })
-
+                returnObj[commentId].commentcontent=infos[i].commentcontent
+                returnObj[commentId].commentlikes=infos[i].commentlikes
+                returnObj[commentId].nickname=infos[i].nickname
+            }
         }
         catch (e)
         {
             console.log(e)
         }
         finally {
-            console.log('hello?')
-            console.log(returnObj);
-            await socket.emit('read message',returnObj)
+            socket.emit('read message',returnObj)
         }
     })
+
     socket.on('add likes',async (msg)=>{
-        let execute;
-        const getCommentLikes=`select * from commentinfo where commentid=${msg}`
-        execute=await connection.query(getCommentLikes)
-        const commentLikesCount=execute[0][0].commentlikes+1
-        const updateCommentLikes= `
-                UPDATE commentinfo
-                SET
-                    commentlikes=${commentLikesCount}
-                WHERE
-                    commentnumber=${msg};`
-        execute=await connection.query(updateCommentLikes)
+        let returnObj={}
+        returnObj.position=msg.position
+        try {
+            console.log(msg)
+            const query1=`
+        UPDATE commentinfo
+        SET commentlikes = commentlikes+1
+        WHERE commentid = ${msg.commentId};
+        `
+            const query2=`
+        insert into commentcookie(commentid,commentowner,commenteduser)
+        values(${msg.commentId},'${msg.commentOwner}','${msg.commentedUser}');
+        `
+            const query3=`
+            select * from commentcookie
+            where 
+            commentid=${msg.commentId} and
+            commentowner='${msg.commentOwner}' and
+            commenteduser='${msg.commentedUser}'
+            `
+            const v=await connection.query(query3)
+            if(v[0].length==0) {
+                await connection.query(query1)
+                await connection.query(query2)
+                returnObj.click=false
+            } else {
+                returnObj.click=true
+            }
+        } catch (e) {
+            console.log(e)
+        }
+        finally {
+            console.log(returnObj)
+            io.emit('add likes',returnObj)
+        }
+
     })
     socket.on('upload image', async (msg) => {
         console.log(msg)
