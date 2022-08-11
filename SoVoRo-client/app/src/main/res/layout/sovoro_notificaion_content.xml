@@ -16,10 +16,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/notificationOn"
+        android:id="@+id/notificationContent"
         android:text="농담곰 님이 댓글에 좋아요를 남겼어요"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginLeft="10dp"
         android:fontFamily="@font/jua"
         android:textSize="20sp"/>
 
