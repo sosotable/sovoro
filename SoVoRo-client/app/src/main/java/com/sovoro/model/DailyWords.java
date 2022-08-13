@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DailyWords {
+    public static String dayCookie;
     public static Map<WordOption,ArrayList<Word>> dailyWordsMap=new HashMap<>();
 
     public static void setWordMap(WordOption wordOption, ArrayList<Word> arrayList) {

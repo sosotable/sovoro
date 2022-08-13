@@ -36,11 +36,20 @@ import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormat
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 import com.sovoro.databinding.ActivitySovoroAttendanceCalendarBinding;
 import com.sovoro.databinding.ActivitySovoroSigninBinding;
+import com.sovoro.model.TestResult;
+import com.sovoro.model.UserInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 
+import java.net.URISyntaxException;
 import java.util.List;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class SoVoRoAttendanceCalendar
         extends AppCompatActivity
@@ -60,6 +69,15 @@ public class SoVoRoAttendanceCalendar
     private FragmentTransaction transaction;
 
     private ActivitySovoroAttendanceCalendarBinding binding;
+
+    private Socket socket;
+    {
+        try {
+            socket = IO.socket("http://13.58.48.132:3000");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,6 +160,9 @@ public class SoVoRoAttendanceCalendar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sovoro_attendance_calendar);
 
+        socket.connect();
+        socket.on("date result",dateResult);
+
         binding = ActivitySovoroAttendanceCalendarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -204,7 +225,25 @@ public class SoVoRoAttendanceCalendar
                                        @NonNull CalendarDay date,
                                        boolean selected) {
                 Toast.makeText(getApplicationContext(),date.toString(), Toast.LENGTH_LONG);
-                System.out.println(date.getDate());
+                String[] selectedDate=date.getDate().toString().split("-");
+                String returndate=selectedDate[0];
+                for(int i=1;i<=2;i++) {
+                    if(selectedDate[i].charAt(0)=='0')
+                        returndate+=selectedDate[i].charAt(1);
+                    else
+                        returndate+=selectedDate[i];
+                }
+                JSONObject returnJSON=new JSONObject();
+                try {
+                    returnJSON.put("date",returndate);
+                    returnJSON.put("userId", UserInfo.userid);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                socket.emit("date result",returnJSON);
+
                 String[] dates=date.getDate().toString().split("-");
                 String fmt="%s년 %s월 %s일";
                 sovoroCalendarContent.setDate(String.format(fmt,dates[0],dates[1],dates[2]));
@@ -226,4 +265,32 @@ public class SoVoRoAttendanceCalendar
         navigationView=findViewById(R.id.sovoro_calendar_drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    private final Emitter.Listener dateResult = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject messageInfo = (JSONObject) args[0];
+                    try {
+                        if(messageInfo.getInt("correct")==-1 && messageInfo.getInt("solved")==-1) {
+                            Toast.makeText(getApplicationContext(),"no data",Toast.LENGTH_SHORT).show();
+                            sovoroCalendarContent.setResult("이 날은 문제를 풀지 않았어요");
+                        }
+                        else {
+                            String fmt="%d/%d";
+                            sovoroCalendarContent.setResult(String.format(fmt,
+                                    messageInfo.getInt("correct"),
+                                    messageInfo.getInt("solved")
+                                    ));
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+    };
 }

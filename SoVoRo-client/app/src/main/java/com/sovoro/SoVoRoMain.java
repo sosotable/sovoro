@@ -25,13 +25,21 @@ import com.google.android.material.navigation.NavigationView;
 import com.sovoro.databinding.ActivitySovoroMainBinding;
 import com.sovoro.databinding.ActivitySovoroSigninBinding;
 import com.sovoro.model.DailyWords;
+import com.sovoro.model.TestResult;
 import com.sovoro.model.UserInfo;
 import com.sovoro.model.Word;
 import com.sovoro.model.WordOption;
 import com.sovoro.wordview.SoVoRoWordAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class SoVoRoMain
@@ -40,6 +48,15 @@ public class SoVoRoMain
         NavigationView.OnNavigationItemSelectedListener,
         ViewPager2.PageTransformer
 {
+
+    private Socket socket;
+    {
+        try {
+            socket = IO.socket("http://13.58.48.132:3000");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     private float pageMargin;
     private float pageOffset;
@@ -101,9 +118,14 @@ public class SoVoRoMain
                 intent = new Intent(getApplicationContext(), SoVoRoMain.class);
                 startActivity(intent);
                 break;
-            // 단어 테스트 창으로 이동
             case R.id.sovoro_word_test:
-                intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                if(TestResult.solved==10) {
+                    intent=intent = new Intent(getApplicationContext(), SoVoRoTestComplete.class);
+                }
+                else {
+                    TestResult.clear();
+                    intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                }
                 startActivity(intent);
                 break;
             // 출석부 창으로 이동
@@ -146,6 +168,12 @@ public class SoVoRoMain
 
         binding=ActivitySovoroMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        socket.connect();
+        socket.on("check test",checkTest);
+        socket.emit("check test",DailyWords.dayCookie);
+        Log.d("AAAA",Boolean.toString(socket.connected()));
 
         /**툴바 관련 코드**/
         toolbar = (Toolbar) findViewById(R.id.sovoroMainToolbar);
@@ -196,6 +224,23 @@ public class SoVoRoMain
 
         mPager.setPageTransformer(this);
     }
+    private final Emitter.Listener checkTest = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject messageInfo = (JSONObject) args[0];
+                    try {
 
+                        TestResult.solved=messageInfo.getInt("solved");
+                        TestResult.correct=messageInfo.getInt("correct");
+                    }  catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
 
 }

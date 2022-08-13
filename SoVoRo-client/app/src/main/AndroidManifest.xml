@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".SoVoRoTestComplete"
+            android:exported="false" />
+        <activity
             android:name=".SoVoRoSplash"
             android:exported="true">
             <intent-filter>
@@ -73,7 +76,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SoVoRoTest"
             android:exported="true">

@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.sovoro.model.TestResult;
 import com.sovoro.testview.SoVoRoTestAdapter;
 import com.sovoro.wordview.SoVoRoWordAdapter;
 
@@ -79,7 +80,13 @@ public class SoVoRoTest
                 break;
             // 단어 테스트 창으로 이동
             case R.id.sovoro_word_test:
-                intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                if(TestResult.solved==10) {
+                    intent=intent = new Intent(getApplicationContext(), SoVoRoTestComplete.class);
+                }
+                else {
+                    TestResult.clear();
+                    intent = new Intent(getApplicationContext(), SoVoRoTest.class);
+                }
                 startActivity(intent);
                 break;
             // 출석부 창으로 이동
@@ -141,14 +148,16 @@ public class SoVoRoTest
         //Adapter
         pagerAdapter = new SoVoRoTestAdapter(this, num_page);
         mPager.setAdapter(pagerAdapter);
+
+
         //Indicator
 //        mIndicator = findViewById(R.id.sovoro_main_indicator);
 //        mIndicator.setViewPager(mPager);
 //        mIndicator.createIndicators(num_page,0);
         //ViewPager Setting
         mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        mPager.setCurrentItem(1000);
-        mPager.setOffscreenPageLimit(10);
+        mPager.setCurrentItem(1);
+        mPager.setOffscreenPageLimit(100);
         mPager.registerOnPageChangeCallback(new SoVoRoViewPagerOnPageChangeCallback(mPager));
         mPager.setPageTransformer(this);
     }
