@@ -24,8 +24,12 @@ import com.sovoro.utils.RequestOption;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 // 로그인 화면 액티비티
 public class SoVoRoSignin extends AppCompatActivity {
@@ -36,6 +40,7 @@ public class SoVoRoSignin extends AppCompatActivity {
     // request/response 경로
     // http://address:port/path
     private final String PATH="/signin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +61,6 @@ public class SoVoRoSignin extends AppCompatActivity {
         activitySovoroSigninBinding.sovoroSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // 만약 id 혹은 password 입력창이 비어있는 경우
                 // id혹은 passwordc창이 비어있다는 에러 메세지 팝업
                 if(activitySovoroSigninBinding.sovoroId.getText().toString().isEmpty()

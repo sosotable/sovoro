@@ -33,7 +33,7 @@ public class SoVoRoTestAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2000;
+        return 10;
     }
     public int getRealPosition(int position) { return position % mCount; }
 }

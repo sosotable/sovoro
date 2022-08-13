@@ -77,12 +77,17 @@ import org.json.JSONObject;
 
 
 import java.net.CookieStore;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 // 로딩 화면
 public class SoVoRoMainLoading extends AppCompatActivity {
@@ -130,7 +135,6 @@ public class SoVoRoMainLoading extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.loading_rotate);
         binding.sovoroLoadingImage.setAnimation(animation);
 
-
         AppHelper.setRequestQueue(this);
 
         //GET 함수
@@ -155,6 +159,7 @@ public class SoVoRoMainLoading extends AppCompatActivity {
 
                     UserInfo.setUserinfo(getUserid, getPassword, getNickname,getUserImage);
 
+                    DailyWords.dayCookie=response.getString("dayCookie");
                     MainWord = response.getJSONObject("MainWord");
                     TestWord1 = response.getJSONObject("TestWord1");
                     TestWord2 = response.getJSONObject("TestWord2");
