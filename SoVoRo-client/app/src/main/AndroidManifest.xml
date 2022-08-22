@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".SoVoRoSignUpSelect"
+            android:exported="false" />
+        <activity
             android:name=".SoVoRoTestComplete"
             android:exported="false" />
         <activity

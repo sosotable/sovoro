@@ -11,8 +11,8 @@
     <ImageView
         android:id="@+id/signinLogo"
 
-        android:layout_width="297dp"
-        android:layout_height="79dp"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
         android:adjustViewBounds="true"
         android:src="@drawable/text_logo"
         app:layout_constraintBottom_toBottomOf="parent"

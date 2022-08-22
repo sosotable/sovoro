@@ -82,6 +82,10 @@ public class SoVoRoSignin extends AppCompatActivity {
                 }
             }
         });
+        activitySovoroSigninBinding.sovoroSignup.setOnClickListener(v->{
+            Intent intent=new Intent(getApplicationContext(),SoVoRoSignUpSelect.class);
+            startActivity(intent);
+        });
     }
     JsonObjectRequest getJsonObjectRequest() {
         return new JsonObjectRequest(
